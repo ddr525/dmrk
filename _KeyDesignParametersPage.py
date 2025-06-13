@@ -1,0 +1,426 @@
+import customtkinter as ctk 
+from tables.GraphView import GraphView
+
+class KeyDesignParameters(ctk.CTkFrame):
+    def __init__(self, master, root, database, **kwargs):
+        super().__init__(master, **kwargs)
+        self.configure(fg_color="#7c7878", width=kwargs.get("width", 250))
+        
+        self.database = database
+        
+        self.font=ctk.CTkFont(size=13, weight="bold")
+        self.list = database.get_gases()
+        
+        self.update()
+    
+    def update(self):
+        firstblock = ctk.CTkFrame(self, fg_color="transparent")
+        firstblock.grid(row=0, column=0)
+        #-----------таблица----------------------
+        calculation_table = ctk.CTkFrame(firstblock, fg_color="black", corner_radius=0, border_width=2, border_color="black")
+        calculation_table.grid(row=0,column=0)
+        #----------------------------------------
+
+        #-----------параметры под таблицей-------
+        parameters = ctk.CTkFrame(firstblock, fg_color="#7c7878", corner_radius=0)
+        parameters.grid(row=1,column=0)
+        #----------------------------------------
+
+        #-----------график-----------------------
+        graph = ctk.CTkFrame(firstblock, fg_color="black", corner_radius=0, border_width=1, border_color="black")
+        graph.grid(row=2,column=0)
+        #----------------------------------------
+
+        #----------row=0---------------------------------
+        self.newcell(calculation_table, row=0, column=0, text="№1") 
+         
+        block=ctk.CTkFrame(calculation_table, fg_color="transparent", corner_radius=0)
+        block.grid(
+            row=0, 
+            column=1, 
+            padx=(0,1), 
+            sticky="ew"
+            ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Расчет нагрева сляба в методической печи ЛПЦ-1", fg_color="#7c7878", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, sticky="ew")
+        block.grid_configure(columnspan=9)
+        #------------------------------------------------
+
+        #----------row=1--------------------------------- 
+        self.newcell(calculation_table, row=1, column=0, text="зона")  
+        self.newcell(calculation_table, row=1, column=1, text="Время наг-\nрева, мин") 
+        self.newcell(calculation_table, row=1, column=2, text="T печи\nверх, °С") 
+        self.newcell(calculation_table, row=1, column=3, text="T печи\nниз, °С") 
+        self.newcell(calculation_table, row=1, column=4, text="Т сляба\nверх, °С") 
+        self.newcell(calculation_table, row=1, column=5, text="Т сляба\nцентр, °С") 
+        self.newcell(calculation_table, row=1, column=6, text="Т сляба\nниз, °С") 
+  
+        self.newcell(calculation_table, row=1, column=7, text="\nСредне\nмассовая\nтемпература сляба на\nвыдаче, °С", rowspan=5, sticky="nsew", wraplength=120) 
+        self.newcell(calculation_table, row=1, column=8, text="\nКонечный\nперепад\nтемпературы\nпо толщине\nсляба\nна выдаче, °С", rowspan=5, sticky="nsew", wraplength=120) 
+        self.newcell(calculation_table, row=1, column=9, text="\nТемпература\nраската за\nпятой\nклетью Т5,  °С", rowspan=5, sticky="nsew", wraplength=120) 
+        #---------------------------------------------------------
+
+        #----------------------row=2------------------------------  
+        self.newcell(calculation_table, row=2, column=0, text="посад") 
+        self.newcell(calculation_table, row=2, column=1, text="") 
+        self.newcell(calculation_table, row=2, column=2, text="") 
+        self.newcell(calculation_table, row=2, column=3, text="") 
+        self.newcell(calculation_table, row=2, column=4, text="") 
+        self.newcell(calculation_table, row=2, column=5, text="") 
+        self.newcell(calculation_table, row=2, column=6, text="") 
+        #---------------------------------------------------------
+        #----------------------row=3------------------------------ 
+        self.newcell(calculation_table, row=3, column=0, text="метод.") 
+        self.newcell(calculation_table, row=3, column=1, text="") 
+        self.newcell(calculation_table, row=3, column=2, text="") 
+        self.newcell(calculation_table, row=3, column=3, text="") 
+        self.newcell(calculation_table, row=3, column=4, text="") 
+        self.newcell(calculation_table, row=3, column=5, text="") 
+        self.newcell(calculation_table, row=3, column=6, text="") 
+        #---------------------------------------------------------
+        #----------------------row=4------------------------------ 
+        self.newcell(calculation_table, row=4, column=0, text="1/2 зона") 
+        self.newcell(calculation_table, row=4, column=1, text="") 
+        self.newcell(calculation_table, row=4, column=2, text="") 
+        self.newcell(calculation_table, row=4, column=3, text="") 
+        self.newcell(calculation_table, row=4, column=4, text="") 
+        self.newcell(calculation_table, row=4, column=5, text="") 
+        self.newcell(calculation_table, row=4, column=6, text="") 
+        #---------------------------------------------------------
+        #----------------------row=5------------------------------ 
+        self.newcell(calculation_table, row=5, column=0, text="3/4 зона") 
+        self.newcell(calculation_table, row=5, column=1, text="") 
+        self.newcell(calculation_table, row=5, column=2, text="") 
+        self.newcell(calculation_table, row=5, column=3, text="") 
+        self.newcell(calculation_table, row=5, column=4, text="") 
+        self.newcell(calculation_table, row=5, column=5, text="") 
+        self.newcell(calculation_table, row=5, column=6, text="") 
+        #---------------------------------------------------------
+        #----------------------row=6------------------------------
+        self.newcell(calculation_table, row=6, column=0, text="5 зона")  
+        self.newcell(calculation_table, row=6, column=1, text="") 
+        self.newcell(calculation_table, row=6, column=2, text="") 
+        self.newcell(calculation_table, row=6, column=3, text="") 
+        self.newcell(calculation_table, row=6, column=4, text="") 
+        self.newcell(calculation_table, row=6, column=5, text="") 
+        self.newcell(calculation_table, row=6, column=6, text="") 
+        self.newcell(calculation_table, row=6, column=7, text="") 
+        self.newcell(calculation_table, row=6, column=8, text="") 
+        self.newcell(calculation_table, row=6, column=9, text="") 
+        #---------------------------------------------------------
+        #----------------------row=7------------------------------
+        self.newcell(calculation_table, row=7, column=0, text="Всего, ч:")  
+        self.newcell(calculation_table, row=7, column=1, text="") 
+        self.newcell(calculation_table, row=7, column=2, text="", columnspan=3)
+        self.newcell(calculation_table, row=7, column=5, text="Целевой уровень:", columnspan=2)
+        self.newcell(calculation_table, row=7, column=7, text="1192-1208")
+        self.newcell(calculation_table, row=7, column=8, text="до 40")
+        self.newcell(calculation_table, row=7, column=9, text="1050-1090")
+        #--------------------------------------------------------- 
+
+        parameters_block_top = ctk.CTkFrame(parameters, border_color="black", border_width=0, fg_color="#7c7878", corner_radius=0, bg_color="#7c7878")
+        parameters_block_top.grid(row=0, column=0, pady=15, sticky="ew") 
+        parameters_block_top.grid_rowconfigure(0, weight=1)
+        parameters_block_top.grid_columnconfigure(0, weight=1) 
+        
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="black", corner_radius=0)
+        block.grid( row=0,column=0,padx=(1,0),pady=(1,0),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Параметры сляба", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#494949", corner_radius=0)
+        block.grid( row=0,column=1,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Масса, т", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#7c7878", corner_radius=0)
+        block.grid( row=0,column=2,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#494949", corner_radius=0)
+        block.grid( row=0,column=3,padx=(0),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Ширина, м", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#7c7878", corner_radius=0)
+        block.grid( row=0,column=4,padx=(0),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#494949", corner_radius=0)
+        block.grid( row=0,column=5,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Длина, м", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#7c7878", corner_radius=0)
+        block.grid( row=0,column=6,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+        
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#494949", corner_radius=0)
+        block.grid( row=0,column=7,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Толщина, м", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#7c7878", corner_radius=0)
+        block.grid( row=0,column=8,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+
+        parameters_block_bottom = ctk.CTkFrame(parameters, border_color="black", border_width=0, fg_color="#7c7878", corner_radius=0, bg_color="#7c7878")
+        parameters_block_bottom.grid(row=1, column=0, pady=15) 
+        parameters_block_bottom.grid_rowconfigure(0, weight=1)
+        parameters_block_bottom.grid_columnconfigure(0, weight=1) 
+        
+        block=ctk.CTkFrame(parameters_block_bottom, border_color="black", border_width=1, fg_color="#494949", corner_radius=0)
+        block.grid( row=0,column=0,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Марка стали", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        block=ctk.CTkFrame(parameters_block_bottom, border_color="black", border_width=1, fg_color="#7c7878", corner_radius=0)
+        block.grid( row=0,column=1,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        
+        block=ctk.CTkFrame(parameters_block_bottom, border_color="black", border_width=1, fg_color="#494949", corner_radius=0)
+        block.grid( row=0,column=2,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Производительность печи, т/час", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+        block=ctk.CTkFrame(parameters_block_bottom, border_color="black", border_width=1, fg_color="#7c7878", corner_radius=0)
+        block.grid( row=0,column=3,padx=(0,1),pady=(0,1),sticky="ew" ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+
+
+
+
+        block=GraphView(graph, database=self.database)
+        block.grid(row=0, column=0)
+
+        secondblock = ctk.CTkFrame(self, fg_color="transparent")
+        secondblock.grid(row=0, column=1, padx=20, sticky="n")
+        secondblock.grid_rowconfigure(0, weight=1)
+        secondblock.grid_columnconfigure(0, weight=1)
+
+        title = ctk.CTkFrame(secondblock, fg_color="black")
+        title.grid(row=0, column=0, sticky="ew")
+        title.grid_columnconfigure(0, weight=1)
+        label=ctk.CTkLabel(title, text_color="white", fg_color="transparent", text="Горение топлива", font=self.font)
+        label.grid(row=0, column=0, sticky="ew")
+
+        secondtable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
+        secondtable.grid(row=2, column=0, padx=1, pady=20)
+ 
+        block=ctk.CTkFrame(secondtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=0, padx=1, pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Состав газов", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+        
+        block=ctk.CTkFrame(secondtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=1, padx=(0,1), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Доля, %", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+
+        block=ctk.CTkFrame(secondtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=2, padx=(0,1), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Калорийность", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+        
+        for row, value in enumerate(self.list):
+            self.newcell(secondtable, row=row+1, column=0, text=value.name)
+            self.newcell(secondtable, row=row+1, column=1, text="1")
+            self.newcell(secondtable, row=row+1, column=2, text="1")
+
+
+        thirdtable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
+        thirdtable.grid(row=3, column=0, padx=1, pady=20)
+ 
+        block=ctk.CTkFrame(thirdtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=0, padx=1, pady=1, sticky="nsew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Состав дыма", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=5, pady=0, sticky="nsew")
+        
+        block=ctk.CTkFrame(thirdtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=1, padx=1, pady=1, sticky="nsew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Доля, %", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=5, pady=0, sticky="nsew") 
+
+        gaslist=["CO2","N2","H2O","O2"]
+        for row, gas in enumerate(gaslist):
+            self.newcell(thirdtable, row=row+1, column=0, text=gas, fg_color="#7c7878")
+            
+            block=ctk.CTkFrame(thirdtable, fg_color="#7c7878", corner_radius=0)
+            block.grid(
+                row=row+1, 
+                column=1, 
+                sticky="ew",
+                padx=1
+                ) 
+            block.grid_rowconfigure(0, weight=1)
+            block.grid_columnconfigure(0, weight=1)
+            cell = ctk.CTkLabel(block, text="", fg_color="#7c7878", corner_radius=0, font=self.font)
+            cell.grid(row=0, column=0, padx=5, sticky="ew")
+
+
+        title = ctk.CTkFrame(secondblock, fg_color="black")
+        title.grid(row=4, column=0, sticky="ew", pady=20)
+        title.grid_columnconfigure(0, weight=1)
+        label=ctk.CTkLabel(title, text_color="white", fg_color="transparent", text="Расход топлива", font=self.font)
+        label.grid(row=0, column=0, sticky="ew")
+ 
+        fourthtable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
+        fourthtable.grid(row=5, column=0, padx=1)
+
+        block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=0, padx=1, pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Расход топлива за печь", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+        
+        block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=1, padx=(0,1), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="м3/ч", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+
+        block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=2, padx=(0,1), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="м3/т", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+
+        block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=3, padx=(0,1), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="пр.м3/т", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+        
+        # self.list = database.get_gases()
+        for row, value in enumerate(self.list):
+            self.newcell(fourthtable, row=row+1, column=0, text=value.name)
+            self.newcell(fourthtable, row=row+1, column=1, text="1")
+            self.newcell(fourthtable, row=row+1, column=2, text="1")
+            self.newcell(fourthtable, row=row+1, column=3, text="1")
+            
+            
+        lasttable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
+        lasttable.grid(row=6, column=0, padx=(1,0), pady=20)
+ 
+        block=ctk.CTkFrame(lasttable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=0, padx=(1,0), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Расход топлива по зонам", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+        
+        block=ctk.CTkFrame(lasttable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=1, padx=(0), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="м3/ч", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+
+        block=ctk.CTkFrame(lasttable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=2, padx=(1,0), pady=(1,2), sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="доля, %", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+        
+        zonelist = [1,2,3,4,5]
+        for row in zonelist:
+            self.newcell(lasttable, row=row+1, column=0, text=row)
+            self.newcell(lasttable, row=row+1, column=1, text="1")
+            self.newcell(lasttable, row=row+1, column=2, text="1")
+            
+            
+        lastrow=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
+        lastrow.grid(row=7, column=0, padx=1, pady=20)
+        
+        block=ctk.CTkFrame(lastrow, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=0, padx=1, pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="Удельный расход условного топлива", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+        
+        block=ctk.CTkFrame(lastrow, fg_color="#7c7878", corner_radius=0)
+        block.grid( row=0, column=1, padx=0, pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="", fg_color="#7c7878", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+
+        block=ctk.CTkFrame(lastrow, fg_color="#7c7878", corner_radius=0)
+        block.grid( row=0, column=2, padx=(1,2), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="кг у.т./т", fg_color="#7c7878", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+
+    def newcell(self, table, row, column, text, columnspan=0, rowspan=0, sticky="ew", wraplength=0, border_color="black", border_width=0, fg_color="#7c7878"):
+        block=ctk.CTkFrame(table, border_color=border_color, border_width=border_width, fg_color=fg_color, corner_radius=0)
+        block.grid(
+            row=row, 
+            column=column, 
+            padx=((1,0) if column == 0 or column == 1 else (1,1)), 
+            pady=((1,0) if row == 0 else (0,1)), 
+            sticky=sticky
+            ) 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text=text, fg_color="transparent", corner_radius=0, wraplength=wraplength, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
+        if(columnspan > 0):
+            block.grid_configure(columnspan=columnspan)
+        if(rowspan > 0):
+            block.grid_configure(rowspan=rowspan)
+
