@@ -5,7 +5,6 @@ class HeatBalance(ctk.CTkFrame):
         super().__init__(master, **kwargs)
         
         self.font=ctk.CTkFont(size=13, weight="bold")
-        
         self.update()
         
     def update(self):

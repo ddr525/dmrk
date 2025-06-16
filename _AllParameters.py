@@ -212,7 +212,13 @@ class AllParameters(customtkinter.CTkFrame):
         params = self.params
 
         data = FuilBurnCalculation(gases, n, tv, tg, l, params)
+        print(data)
+        print("|||||")
         result, gas_data = self.show_result(data)
+        print(result)
+        print("|||||")
+        print(gas_data)
+        print("|||||")
 
         # Запись результатов
         exp = self.database.save_gas_results("Расчет горения топлива", result) ## uncomment in prod
@@ -285,6 +291,7 @@ class AllParameters(customtkinter.CTkFrame):
         # self.database.save_heating_data(exp, heating_data)
 
         # self.master.set_heating_data(heating_data)
+        self.master.update_all(result)
 
 
     def show_result(self, data):

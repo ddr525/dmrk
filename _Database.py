@@ -199,7 +199,7 @@ class Database():
         )
 
         self.session.add(exp)
-        # self.session.commit() ## uncomment in prod
+        self.session.commit() ## uncomment in prod
 
         return self.get_last_experiment()
 
@@ -216,7 +216,7 @@ class Database():
             self.session.add(param)
             res.append(value)
 
-        # self.session.commit() ## uncomment in prod
+        self.session.commit() ## uncomment in prod
 
         return res
     

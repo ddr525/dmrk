@@ -90,8 +90,11 @@ class TabPage(ctk.CTkTabview):
         #self.table.update()
         return res
     
-    def update_all(self):
-        self.table.update()
+    def update_all(self, gas_result):
+        self.keydesign.update(gas_result)
+        # self.balance.update()
+        self.addparams.update(gas_result)
+        pass
     
     def set_heating_data(self, heating_data):
         self.cards.set_heating_data(heating_data)

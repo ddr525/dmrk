@@ -22,6 +22,20 @@ class DataSideBar(customtkinter.CTkFrame):
         self.gases = AllParameters(self, database=self.database)
         self.gases.grid(row=1, column=0, pady=10, sticky="nsew") 
 
+    def update_all(self, gas_result):
+        # Traverse up the widget hierarchy to find the App instance
+        parent = self.master
+        while parent is not None:
+            if hasattr(parent, "update_all"):
+                parent.update_all(gas_result)
+                break
+            parent = getattr(parent, "master", None)
+        # Call update_all on the correct object; replace 'self.master' with the appropriate reference if needed
+        # if hasattr(self.plistb, "update_all"):
+        #     self.plistb.update_all()
+        # else:
+        #     print("update_all method not found on plistb or master.")
+
     def update(self):
         self.exp_num = str(self.database.get_experiment_number())
         self.scaling_label.configure(text="Номер опыта — " + self.exp_num)

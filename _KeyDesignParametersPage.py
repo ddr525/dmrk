@@ -1,5 +1,6 @@
 import customtkinter as ctk 
 from tables.GraphView import GraphView
+from utilities import toFixed
 
 class KeyDesignParameters(ctk.CTkFrame):
     def __init__(self, master, root, database, **kwargs):
@@ -11,9 +12,9 @@ class KeyDesignParameters(ctk.CTkFrame):
         self.font=ctk.CTkFont(size=13, weight="bold")
         self.list = database.get_gases()
         
-        self.update()
+        # self.update()
     
-    def update(self):
+    def update(self, gas_result):
         firstblock = ctk.CTkFrame(self, fg_color="transparent")
         firstblock.grid(row=0, column=0)
         #-----------таблица----------------------
@@ -228,8 +229,8 @@ class KeyDesignParameters(ctk.CTkFrame):
 
 
 
-        block=GraphView(graph, database=self.database)
-        block.grid(row=0, column=0)
+        # block=GraphView(graph, database=self.database)
+        # block.grid(row=0, column=0)
 
         secondblock = ctk.CTkFrame(self, fg_color="transparent")
         secondblock.grid(row=0, column=1, padx=20, sticky="n")
@@ -265,33 +266,36 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid_columnconfigure(0, weight=1)
         cell = ctk.CTkLabel(block, text="Калорийность", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
-        
+        print("####")
+        print(self.list)
+        print("####")
         for row, value in enumerate(self.list):
             self.newcell(secondtable, row=row+1, column=0, text=value.name)
-            self.newcell(secondtable, row=row+1, column=1, text="1")
-            self.newcell(secondtable, row=row+1, column=2, text="1")
+            self.newcell(secondtable, row=row+1, column=1, text=gas_result[row][1])
+            self.newcell(secondtable, row=row+1, column=2, text="?")
 
 
         thirdtable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
         thirdtable.grid(row=3, column=0, padx=1, pady=20)
  
         block=ctk.CTkFrame(thirdtable, fg_color="#494949", corner_radius=0)
-        block.grid( row=0, column=0, padx=1, pady=1, sticky="nsew") 
+        block.grid( row=0, column=0, padx=(1,0), pady=1, sticky="nsew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
         cell = ctk.CTkLabel(block, text="Состав дыма", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=5, pady=0, sticky="nsew")
         
         block=ctk.CTkFrame(thirdtable, fg_color="#494949", corner_radius=0)
-        block.grid( row=0, column=1, padx=1, pady=1, sticky="nsew") 
+        block.grid( row=0, column=1, padx=(0,2), pady=1, sticky="nsew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
         cell = ctk.CTkLabel(block, text="Доля, %", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=5, pady=0, sticky="nsew") 
+        
+        cards_dict = next(val for key, val in gas_result if key == "cards")
 
-        gaslist=["CO2","N2","H2O","O2"]
-        for row, gas in enumerate(gaslist):
-            self.newcell(thirdtable, row=row+1, column=0, text=gas, fg_color="#7c7878")
+        for row, (gas_name, gas_value) in enumerate(cards_dict.items()):
+            self.newcell(thirdtable, row=row+1, column=0, text=gas_name, fg_color="#7c7878")
             
             block=ctk.CTkFrame(thirdtable, fg_color="#7c7878", corner_radius=0)
             block.grid(
@@ -302,7 +306,7 @@ class KeyDesignParameters(ctk.CTkFrame):
                 ) 
             block.grid_rowconfigure(0, weight=1)
             block.grid_columnconfigure(0, weight=1)
-            cell = ctk.CTkLabel(block, text="", fg_color="#7c7878", corner_radius=0, font=self.font)
+            cell = ctk.CTkLabel(block, text=toFixed(gas_value, 1), fg_color="#7c7878", corner_radius=0, font=self.font)
             cell.grid(row=0, column=0, padx=5, sticky="ew")
 
 
@@ -343,12 +347,11 @@ class KeyDesignParameters(ctk.CTkFrame):
         cell = ctk.CTkLabel(block, text="пр.м3/т", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
         
-        # self.list = database.get_gases()
         for row, value in enumerate(self.list):
             self.newcell(fourthtable, row=row+1, column=0, text=value.name)
-            self.newcell(fourthtable, row=row+1, column=1, text="1")
-            self.newcell(fourthtable, row=row+1, column=2, text="1")
-            self.newcell(fourthtable, row=row+1, column=3, text="1")
+            self.newcell(fourthtable, row=row+1, column=1, text="?")
+            self.newcell(fourthtable, row=row+1, column=2, text="?")
+            self.newcell(fourthtable, row=row+1, column=3, text="?")
             
             
         lasttable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
@@ -378,8 +381,8 @@ class KeyDesignParameters(ctk.CTkFrame):
         zonelist = [1,2,3,4,5]
         for row in zonelist:
             self.newcell(lasttable, row=row+1, column=0, text=row)
-            self.newcell(lasttable, row=row+1, column=1, text="1")
-            self.newcell(lasttable, row=row+1, column=2, text="1")
+            self.newcell(lasttable, row=row+1, column=1, text="?")
+            self.newcell(lasttable, row=row+1, column=2, text="?")
             
             
         lastrow=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
@@ -396,7 +399,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0, column=1, padx=0, pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="", fg_color="#7c7878", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text="?", fg_color="#7c7878", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
 
         block=ctk.CTkFrame(lastrow, fg_color="#7c7878", corner_radius=0)
