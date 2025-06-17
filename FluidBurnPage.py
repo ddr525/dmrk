@@ -774,9 +774,8 @@ class FluidBurnPage(ctk.CTkScrollableFrame):
             "data": {},
             "t_data": {}
         }
-
-        #print(exp.metal_results[0].zones)
-        print(exp)
+        
+ 
         # metal heating
         for zone in exp.metal_results[0].zones:
             #print(zone.name)
@@ -834,7 +833,9 @@ class FluidBurnPage(ctk.CTkScrollableFrame):
         heating_data["t_data"]["Температура сляба при посаде"] = tmn
         heating_data["t_data"]["Температура верха печи при посаде"] = twMetn
         heating_data["t_data"]["Температура низа печи при посаде"] = twMetn - twDif
-
+        print("heating_data")
+        print(heating_data)
+        print("####")
         self.set_heating_data(heating_data)
         
     def show_exp(self, exp):

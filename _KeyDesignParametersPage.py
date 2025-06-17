@@ -28,8 +28,8 @@ class KeyDesignParameters(ctk.CTkFrame):
         #----------------------------------------
 
         #-----------график-----------------------
-        graph = ctk.CTkFrame(firstblock, fg_color="black", corner_radius=0, border_width=1, border_color="black")
-        graph.grid(row=2,column=0)
+        # graph = ctk.CTkFrame(firstblock, fg_color="black", corner_radius=0, border_width=1, border_color="black")
+        # graph.grid(row=2,column=0)
         #----------------------------------------
 
         #----------row=0---------------------------------
@@ -266,9 +266,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid_columnconfigure(0, weight=1)
         cell = ctk.CTkLabel(block, text="Калорийность", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
-        print("####")
-        print(self.list)
-        print("####")
+        
         for row, value in enumerate(self.list):
             self.newcell(secondtable, row=row+1, column=0, text=value.name)
             self.newcell(secondtable, row=row+1, column=1, text=gas_result[row][1])

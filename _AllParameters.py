@@ -211,14 +211,8 @@ class AllParameters(customtkinter.CTkFrame):
         # сохранить в базу Доля газов
         params = self.params
 
-        data = FuilBurnCalculation(gases, n, tv, tg, l, params)
-        print(data)
-        print("|||||")
-        result, gas_data = self.show_result(data)
-        print(result)
-        print("|||||")
-        print(gas_data)
-        print("|||||")
+        data = FuilBurnCalculation(gases, n, tv, tg, l, params) 
+        result, gas_data = self.show_result(data) 
 
         # Запись результатов
         exp = self.database.save_gas_results("Расчет горения топлива", result) ## uncomment in prod
@@ -284,11 +278,8 @@ class AllParameters(customtkinter.CTkFrame):
                     s, bb, a, Lp, toc, tnas, tmn, twDif, twMetn, twMetNpk, twSv1n, twSv2, twNp2k, twTom, twNp2n,
                     dst1, dst2, r1, r2, r3, dtdop, n, time_H, tMet_per, tSv1_per, tSv2_per, tTom_per, Fmet, Fsv1, Fsv2, Ftom,
                     LsioMet, LsioSv1, LsioSv2, LsioTom, LsioPercent,
-                    Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv)
-        print(
-            heating_data
-        )
-        # self.database.save_heating_data(exp, heating_data)
+                    Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv) 
+        self.database.save_heating_data(exp, heating_data)
 
         # self.master.set_heating_data(heating_data)
         self.master.update_all(result)

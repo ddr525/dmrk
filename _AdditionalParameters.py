@@ -29,8 +29,6 @@ class AdditionalParameters(ctk.CTkFrame):
         data_dict = dict(data)
 
         for i, name in enumerate(self.names):
-            print(i)
-            print(name)
             value = data_dict.get(name, "0")
         
             param_label = ctk.CTkLabel(
@@ -42,11 +40,11 @@ class AdditionalParameters(ctk.CTkFrame):
                 padx=30,
                 pady=3,
             )
-            param_label.grid(row=value, column=0, sticky="w", padx=(5, 0), pady=(2, 2))
+            param_label.grid(row=i, column=0, sticky="w", padx=(5, 0), pady=(2, 2))
 
             value_label = ctk.CTkLabel(
                 block,
-                text="456",
+                text=value,
                 font=ctk.CTkFont(size=13, weight="bold"),
                 anchor="w",
                 text_color='white',
@@ -54,26 +52,3 @@ class AdditionalParameters(ctk.CTkFrame):
                 pady=3,
             )
             value_label.grid(row=i, column=1, sticky="w", padx=(5, 0), pady=(2, 2))
-        
-        # for i, value in enumerate(data):
-        #     param_label = ctk.CTkLabel(
-        #         block,
-        #         text=value["name"],
-        #         font=ctk.CTkFont(size=13, weight="bold"),
-        #         anchor="w",
-        #         text_color='white',
-        #         padx=30,
-        #         pady=3,
-        #     )
-        #     param_label.grid(row=i, column=0, sticky="w", padx=(5, 0), pady=(2, 2))
-
-        #     value_label = ctk.CTkLabel(
-        #         block,
-        #         text="456",
-        #         font=ctk.CTkFont(size=13, weight="bold"),
-        #         anchor="w",
-        #         text_color='white',
-        #         padx=30,
-        #         pady=3,
-        #     )
-        #     value_label.grid(row=i, column=1, sticky="w", padx=(5, 0), pady=(2, 2))

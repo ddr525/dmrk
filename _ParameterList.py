@@ -70,13 +70,3 @@ class ParameterList(customtkinter.CTkFrame):
         self.t_gas_v.insert(0, self.database.get_parameters("Температура смешанного газа").value)
         self.air_con_v.delete(0, 200)
         self.air_con_v.insert(0, self.database.get_parameters("Коэффициент расхода воздуха").value) # "1.4258920266676125"
-
-    def get_parameters(self):
-        data = {
-            "Пирометрический коэффициент": self.pir_cf_v.get(),
-            "Температура подогрева воздуха": self.t_air_v.get(),
-            "Температура смешанного газа": self.t_gas_v.get(),
-            "Коэффициент расхода воздуха": self.air_con_v.get(),
-        }
-
-        return data
