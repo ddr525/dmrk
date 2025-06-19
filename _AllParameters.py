@@ -253,7 +253,7 @@ class AllParameters(customtkinter.CTkFrame):
 
         # Другие параметры
         dtdop = self.database.get_parameters("Допустимый перепад (dtdop)").value
-        n = int(self.database.get_parameters("Количество узлов (n)").value)
+        n = int(self.database.get_parameters("Количество узлов (n-нечётное)").value)
         
         time_H *= 60
         # time_H = self.database.get_parameters("Время нагрева (time_H)").value * 60
@@ -280,9 +280,9 @@ class AllParameters(customtkinter.CTkFrame):
                     LsioMet, LsioSv1, LsioSv2, LsioTom, LsioPercent,
                     Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv) 
         self.database.save_heating_data(exp, heating_data)
-
+        print(heating_data)
         # self.master.set_heating_data(heating_data)
-        self.master.update_all(result)
+        self.master.update_all(heating_data, result)
 
 
     def show_result(self, data):

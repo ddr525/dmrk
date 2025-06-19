@@ -1,8 +1,10 @@
 import customtkinter
 
 class ParameterList(customtkinter.CTkFrame):
-    def __init__(self, master, database, **kwargs):
+    def __init__(self, master, database, text_boxes, **kwargs):
         super().__init__(master, **kwargs)
+        
+        self.text_boxes = text_boxes
 
         self.database = database
 
@@ -19,6 +21,7 @@ class ParameterList(customtkinter.CTkFrame):
         # Добавляем поле ввода
         self.pir_cf_v = customtkinter.CTkEntry(self.pir_cf_form, height=20, width=150)
         self.pir_cf_v.grid(row=1, column=1, padx=(0, 10), pady=0)
+        self.text_boxes["Пирометрический коэффициент"] = self.pir_cf_v
 
         # Ввод температуры подогрева воздуха
         self.t_air_form = customtkinter.CTkFrame(self, fg_color='transparent')
@@ -32,6 +35,7 @@ class ParameterList(customtkinter.CTkFrame):
 
         self.t_air_v = customtkinter.CTkEntry(self.t_air_form, height=20, width=150)
         self.t_air_v.grid(row=1, column=1, padx=(0, 10), pady=0)
+        self.text_boxes["Температура подогрева воздуха, °C"] = self.t_air_v
 
         # Ввод температуры смешанного газа
         self.t_gas_form = customtkinter.CTkFrame(self, fg_color='transparent')
@@ -45,6 +49,7 @@ class ParameterList(customtkinter.CTkFrame):
 
         self.t_gas_v = customtkinter.CTkEntry(self.t_gas_form, height=20, width=150)
         self.t_gas_v.grid(row=1, column=1, padx=(0, 10), pady=0)
+        self.text_boxes["Температура смешанного газа, °C"] = self.t_gas_v
 
         # Ввод коэффициента расхода воздуха
         self.air_con_form = customtkinter.CTkFrame(self, fg_color='transparent')
@@ -58,8 +63,10 @@ class ParameterList(customtkinter.CTkFrame):
 
         self.air_con_v = customtkinter.CTkEntry(self.air_con_form, height=20, width=150)
         self.air_con_v.grid(row=1, column=1, padx=(0, 10), pady=(0,5))
+        self.text_boxes["Коэффициент расхода воздуха"] = self.air_con_v
 
         self.update()
+        
 
     def update(self):
         self.pir_cf_v.delete(0, 200)

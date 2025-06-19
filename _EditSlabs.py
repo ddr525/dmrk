@@ -1,3 +1,4 @@
+from CTkMessagebox import CTkMessagebox
 import customtkinter as ctk
 
 from utilities import toFixed
@@ -7,14 +8,15 @@ class EditSlabs(ctk.CTkToplevel):
         super().__init__(master)
         self.resizable(False, False)
         self.database = database
+        self.text_boxes = {}
         self.title(title)
         self.geometry(size)
         self.furnace_params = {
             "Геометрические параметры": {
-                "Толщина сляба (s), м": toFixed(database.get_parameters("Толщина сляба (s)").value, 3),
-                "Длина сляба (bb), м": toFixed(database.get_parameters("Длина сляба (bb)").value, 3),
-                "Ширина сляба (a), м": toFixed(database.get_parameters("Ширина сляба (a)").value, 3),
-                "Начальная температура металла (tmn), °C": toFixed(database.get_parameters("Начальная температура металла (tmn)").value, 3),
+                "Толщина сляба (s), м": toFixed(float(database.get_parameters("Толщина сляба (s)").value), 3),
+                "Длина сляба (bb), м": toFixed(float(database.get_parameters("Длина сляба (bb)").value), 3),
+                "Ширина сляба (a), м": toFixed(float(database.get_parameters("Ширина сляба (a)").value), 3),
+                "Начальная температура металла (tmn), °C": toFixed(float(database.get_parameters("Начальная температура металла (tmn)").value), 3),
                 "Марка стали (группа нагрева)": [
                     "DX51D (1)",
                     "08кп, 08пс (1)",
@@ -54,17 +56,53 @@ class EditSlabs(ctk.CTkToplevel):
             list_item = ctk.CTkLabel(self, text=key, font=ctk.CTkFont(size=12))
             list_item.grid(row=row_counter, column=col_counter, padx=10, pady=5, sticky="E")
 
-            list_item_text_box = ctk.CTkEntry(self, height=25, width=120)
-            list_item_text_box.grid(row=row_counter, column=col_counter + 1, padx=10, pady=5, sticky="W")
-            list_item_text_box.insert(0, str(value))
-
-            row_counter += 1
             if isinstance(value, list):
-                list_item_text_box.destroy()
-                combo = ctk.CTkComboBox(self, values=value, width=120)
-                combo.grid(row=row_counter - 1, column=col_counter + 1, padx=10, pady=5, sticky="W")
+                combo = ctk.CTkComboBox(self, values=value, width=200, state="readonly")
+                combo.grid(row=row_counter, column=col_counter + 1, padx=10, pady=5, sticky="W")
                 combo.set(value[0])
-                combo.configure(width=200, state="readonly")
+                self.text_boxes[key] = combo  # сохраняем combo
+            else:
+                entry = ctk.CTkEntry(self, height=25, width=120)
+                entry.grid(row=row_counter, column=col_counter + 1, padx=10, pady=5, sticky="W")
+                entry.insert(0, str(value))
+                self.text_boxes[key] = entry  # сохраняем entry
+            
+            row_counter += 1
 
+    # Кнопки "Подтвердить" и "Отменить"
+        confirm_button = ctk.CTkButton(self, text="Подтвердить", width=160, fg_color='#699187', hover_color='#84a59d', text_color='black',
+                                                 font=ctk.CTkFont(size=12, weight="bold"), command=self.confirm)
+        confirm_button.grid(row=row_counter, column=0, pady=20, padx=20)
+
+        cancel_button = ctk.CTkButton(self, text="Отменить", width=160, fg_color='#ed5855', hover_color='#f28482', text_color='black',
+                                                font=ctk.CTkFont(size=12, weight="bold"), command=self.close_window)
+        cancel_button.grid(row=row_counter, column=1, pady=20)
+
+
+    
+    def close_window(self):
+        self.destroy()
+
+    def confirm(self):
+        data = {} 
+        for key, entry in self.text_boxes.items():
+            value = entry.get()  
+            try:
+                if key == "Марка стали (группа нагрева)":
+                    data[key] = str(value)
+                else:
+                    data[key] = float(value)
+            except ValueError:
+                raise ValueError(f"Значение '{key}' должно быть числом!")
+
+        # Обновляем базу данных параметров печи
+         
+        self.database.update_furnace_params(data)
+
+        self.close_window()
+
+        # except Exception as ex:
+        #     print(ex)
+        #     CTkMessagebox(title="Ошибка!", message=str(ex), icon="cancel")
 
     

@@ -34,6 +34,7 @@ class GlobalParameter(Base):
     parameter = Column(String, nullable=False)
     value = Column(Float, nullable=False)
     units = Column(String, nullable=False)
+    value_str = Column(String, nullable=True)
 
 class MetalResults(Base):
     __tablename__ = 'metal_results'
@@ -253,6 +254,7 @@ class HistoryGlobalParameter(Base):
     parameter_name = Column(String, nullable=False)
     value = Column(Float, nullable=False)
     units = Column(String, nullable=False)
+    value_str = Column(String, nullable=False)
 
     experiment = relationship("Experiment", back_populates="history_parameters")
 

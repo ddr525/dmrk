@@ -40,7 +40,7 @@ class EditOtherParams(ctk.CTkToplevel):
                 "Допустимый перепад (dtdop), °C": toFixed(database.get_parameters("Допустимый перепад (dtdop)").value, 3),
             },
             "Другие параметры": {
-                "Количество узлов (n-нечётное), кол.": toFixed(database.get_parameters("Количество узлов (n)").value, 0),
+                "Количество узлов (n-нечётное), кол.": toFixed(database.get_parameters("Количество узлов (n-нечётное)").value, 0),
                 "Время в методической зоне, %": toFixed(database.get_parameters("Время в методической зоне").value, 3),
                 "Время в первой сварочной зоне, %": toFixed(database.get_parameters("Время в первой сварочной зоне").value, 3),
                 "Время во второй сварочной зоне, %": toFixed(database.get_parameters("Время во второй сварочной зоне").value, 3),

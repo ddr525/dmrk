@@ -90,9 +90,9 @@ class TabPage(ctk.CTkTabview):
         #self.table.update()
         return res
     
-    def update_all(self, gas_result):
-        self.keydesign.update(gas_result)
-        # self.balance.update()
+    def update_all(self, heating_data, gas_result):
+        self.keydesign.update(heating_data, gas_result)
+        self.balance.update(heating_data)
         self.addparams.update(gas_result)
         pass
     

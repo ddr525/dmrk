@@ -7,12 +7,14 @@ class EditGases(ctk.CTkToplevel):
     def __init__(self, master, database, title="New Window", size="700x500"):
         super().__init__(master)
         self.database = database
+        self.text_boxes = {}
         self.title(title)
         self.geometry(size)
         self.init_ui()
         self.grab_set()
         self.transient(self)
         self.focus_force()    # Focus on this window
+        
 
 
     def init_ui(self):
@@ -22,7 +24,7 @@ class EditGases(ctk.CTkToplevel):
         self.grid_columnconfigure(1, weight=1)
 
 
-        self.plist = ParameterList(self, database=self.database)
+        self.plist = ParameterList(self, database=self.database, text_boxes=self.text_boxes)
         self.plist.grid(row=1, column=0, pady=10, padx=50)
 
         block = ctk.CTkFrame(self)
@@ -55,8 +57,7 @@ class EditGases(ctk.CTkToplevel):
                     data[key] = float(value)
                 except ValueError:
                     raise ValueError(f"Значение '{key}' должно быть числом!")
-
-
+ 
             # Обновляем базу данных параметров печи
             self.database.update_furnace_params(data)
 

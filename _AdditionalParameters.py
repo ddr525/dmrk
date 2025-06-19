@@ -7,9 +7,12 @@ class AdditionalParameters(ctk.CTkFrame):
     def __init__(self, master, root, database, **kwargs):
         super().__init__(master, **kwargs)
         
-        self.names = ['Максимальный перепад температур',
-                 'Кол-во теплоты получаемое металлом',
-                 'КПД нагрева',
+        self.database = database
+        
+        self.names = [
+                 'Максимальный перепад температур, °C',
+                 'Кол-во теплоты получаемое металлом, кДж/кг',
+                 'КПД нагрева, %',
                  'Плотность газа при н.у., кг/м³',
                  'Действительный расход воздуха, м³/м³',
                  'Удельный выход дыма, м³/м³',
@@ -17,7 +20,7 @@ class AdditionalParameters(ctk.CTkFrame):
                  'Калориметрическая температура, °C',
                  'Действительная температура, °C',
                  'Цена смешанного газа, тг/1000м³',
-                 'Себестоимость нагрева'
+                 'Себестоимость нагрева, тг/т'
         ]
         
         # self.update(names)
@@ -29,7 +32,10 @@ class AdditionalParameters(ctk.CTkFrame):
         data_dict = dict(data)
 
         for i, name in enumerate(self.names):
-            value = data_dict.get(name, "0")
+            value = data_dict.get(name, "")
+            
+            if value == "":
+                value = self.database.get_overral_heating_data_by_name(name.split(',')[0]).value
         
             param_label = ctk.CTkLabel(
                 block,

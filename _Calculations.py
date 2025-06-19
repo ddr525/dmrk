@@ -763,13 +763,13 @@ def MetallBurnCalculation(
         "График": {},
         "data" : {},
         "t_data" : {}
-    }
+    } 
 
     results["data"]["Время нагрева (time_H)"] = time_H
-    results["data"]["Время в методической зоне"] = tMet_per
-    results["data"]["Время в первой сварочной зоне"] = tSv1_per
-    results["data"]["Время во второй сварочной зоне"] = tSv2_per
-    results["data"]["Время в томильной зоне"] = tTom_per
+    results["data"]["Время в методической зоне"] = timeMet
+    results["data"]["Время в первой сварочной зоне"] = timeSv1
+    results["data"]["Время во второй сварочной зоне"] = timeSv2
+    results["data"]["Время в томильной зоне"] = timeTom
     results["t_data"]["Температура сляба при посаде"] = tmn
     results["t_data"]["Температура верха печи при посаде"] = twMetn
     results["t_data"]["Температура низа печи при посаде"] = twMetn - twDif
@@ -814,7 +814,7 @@ def MetallBurnCalculation(
 
     if(n_cage > 1150):
         n_cage = 1150
-
+ 
     results["Расчет нагрева металла"]["Время нагрева, ч:м"] = f"{heating_hours} :{heating_minutes:2.0f}"
     results["Расчет нагрева металла"]["Масса сляба, т"] = f"{Mslab / 1000:2.3f}"
     results["Расчет нагрева металла"]["Производительность печи, т/час"] = f"{G / 1000 * 3600:2.2f}"

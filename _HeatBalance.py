@@ -5,9 +5,9 @@ class HeatBalance(ctk.CTkFrame):
         super().__init__(master, **kwargs)
         
         self.font=ctk.CTkFont(size=13, weight="bold")
-        self.update()
+        self.view_data = "MВт"
         
-    def update(self):
+    def update(self, heating_data):
         table = ctk.CTkFrame(self, fg_color="black", border_color="black", border_width=2)
         table.grid(row=0, column=0)
 
@@ -19,6 +19,8 @@ class HeatBalance(ctk.CTkFrame):
         
         table.grid_rowconfigure(0, weight=1)
         table.grid_columnconfigure(0, weight=1)
+
+        self.result = heating_data["Тепловой баланс"]
 
         self.newcell(table, 0, 0, "Расчет теплового баланса печи, МВт(%)", columnspan=9)
 
@@ -49,47 +51,47 @@ class HeatBalance(ctk.CTkFrame):
         self.newcell(table, 13, 0, "Потери излучением ч/з окна")
         self.newcell(table, 14, 0, "Итого расход")
         self.newcell(table, 15, 0, "Расход топлива, тыс. м3/ч")
+        
+        self.newcell(table, 3, 1, text="", value="Тепловой баланс печи|Приход тепла|Химическое тепло топлива")
+        self.newcell(table, 4, 1, "", value="Тепловой баланс печи|Приход тепла|Физическое тепло воздуха")
+        self.newcell(table, 5, 1, "", value="Тепловой баланс печи|Приход тепла|Физическое тепло газа")
+        self.newcell(table, 6, 1, "",)
+        self.newcell(table, 7, 1, "", value="Тепловой баланс печи|Приход тепла|Итого приход")
 
-        self.newcell(table, 3, 1, "")
-        self.newcell(table, 4, 1, "")
-        self.newcell(table, 5, 1, "")
-        self.newcell(table, 6, 1, "")
-        self.newcell(table, 7, 1, "")
-
-        self.newcell(table, 9, 1, "")
-        self.newcell(table, 10, 1, "")
-        self.newcell(table, 11, 1, "")
-        self.newcell(table, 12, 1, "")
-        self.newcell(table, 13, 1, "")
-        self.newcell(table, 14, 1, "")
-        self.newcell(table, 15, 1, "")
+        self.newcell(table, 9, 1, "", value="Тепловой баланс печи|Расход тепла|Тепло на нагрев металла")
+        self.newcell(table, 10, 1, "", value="Тепловой баланс печи|Расход тепла|Потери через кладку")
+        self.newcell(table, 11, 1, "", value="Тепловой баланс печи|Расход тепла|Тепло уходящее с дымом")
+        self.newcell(table, 12, 1, "", value="Тепловой баланс печи|Расход тепла|Потери через СИО")
+        self.newcell(table, 13, 1, "", value="Тепловой баланс печи|Расход тепла|Потери излучением ч/з окна")
+        self.newcell(table, 14, 1, "", value="Тепловой баланс печи|Расход тепла|Итого расход")
+        self.newcell(table, 15, 1, "", value="Тепловой баланс печи|Расход топлива, тыс. м³/час") # НА ПЕЧЬ Расход топлива, тыс. м3/ч
 
         self.newcell(table, 3, 2, "")
         self.newcell(table, 4, 2, "")
         self.newcell(table, 5, 2, "")
-        self.newcell(table, 6, 2, "")
-        self.newcell(table, 7, 2, "")
+        self.newcell(table, 6, 2, "", value="Методическая зона верх|Приход тепла|Тепло транзитных газов")
+        self.newcell(table, 7, 2, "", value="Методическая зона верх|Приход тепла|Итого приход")
 
-        self.newcell(table, 9, 2, "")
-        self.newcell(table, 10, 2, "")
+        self.newcell(table, 9, 2, "", value="Методическая зона верх|Расход тепла|Тепло на нагрев металла")
+        self.newcell(table, 10, 2, "", value="Методическая зона верх|Расход тепла|Потери через кладку")
         self.newcell(table, 11, 2, "")
-        self.newcell(table, 12, 2, "")
-        self.newcell(table, 13, 2, "")
-        self.newcell(table, 14, 2, "")
+        self.newcell(table, 12, 2, "", value="Методическая зона верх|Расход тепла|Потери через СИО")
+        self.newcell(table, 13, 2, "", value="Методическая зона верх|Расход тепла|Потери через окно посада")
+        self.newcell(table, 14, 2, "", value="Методическая зона верх|Расход тепла|Итого расход")
         self.newcell(table, 15, 2, "")
 
         self.newcell(table, 3, 3, "")
         self.newcell(table, 4, 3, "")
         self.newcell(table, 5, 3, "")
-        self.newcell(table, 6, 3, "")
-        self.newcell(table, 7, 3, "")
+        self.newcell(table, 6, 3, "", value="Методическая зона низ|Приход тепла|Тепло транзитных газов")
+        self.newcell(table, 7, 3, "", value="Методическая зона низ|Приход тепла|Итого приход")
 
-        self.newcell(table, 9, 3, "")
-        self.newcell(table, 10, 3, "")
+        self.newcell(table, 9, 3, "", value="Методическая зона низ|Расход тепла|Тепло на нагрев металла")
+        self.newcell(table, 10, 3, "", value="Методическая зона низ|Расход тепла|Потери через кладку")
         self.newcell(table, 11, 3, "")
-        self.newcell(table, 12, 3, "")
-        self.newcell(table, 13, 3, "")
-        self.newcell(table, 14, 3, "")
+        self.newcell(table, 12, 3, "", value="Методическая зона низ|Расход тепла|Потери через СИО")
+        self.newcell(table, 13, 3, "", value="Методическая зона низ|Расход тепла|Потери через окно посада")
+        self.newcell(table, 14, 3, "", value="Методическая зона низ|Расход тепла|Итого расход")
         self.newcell(table, 15, 3, "")
 
         self.newcell(table, 3, 4, "")
@@ -160,7 +162,7 @@ class HeatBalance(ctk.CTkFrame):
         self.newcell(table, 14, 8, "")
         self.newcell(table, 15, 8, "")
 
-    def newcell(self, table, row, column, text, columnspan=0, rowspan=0, sticky="ew", wraplength=0, border_color="black", border_width=0, fg_color="#7c7878"):
+    def newcell(self, table, row, column, text, value = "", columnspan=0, rowspan=0, sticky="ew", wraplength=0, border_color="black", border_width=0, fg_color="#7c7878"):
         block=ctk.CTkFrame(table, border_color=border_color, border_width=border_width, fg_color=fg_color, corner_radius=0)
         block.grid(
             row=row, 
@@ -171,7 +173,17 @@ class HeatBalance(ctk.CTkFrame):
             ) 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text=text, fg_color="transparent", corner_radius=0, wraplength=wraplength, font=self.font)
+        label_text = text
+        if len(value) > 0:
+            path = value.split("|")
+            if "," in value:
+                label_text = self.result[path[0]][path[1]]
+            else:    
+                label_text = self.result[path[0]][path[1]][f"{path[2]}, {self.view_data}"]
+            
+        cell = ctk.CTkLabel(block, 
+                            text=label_text,
+                            fg_color="transparent", corner_radius=0, wraplength=wraplength, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
         if(columnspan > 0):
             block.grid_configure(columnspan=columnspan)
@@ -179,4 +191,6 @@ class HeatBalance(ctk.CTkFrame):
             block.grid_configure(rowspan=rowspan)
 
     def change(self):
-        print("change")
+        self.view_data = "%" if self.view_data == "MВт" else "MВт"
+        print(self.view_data)
+        # self.update()

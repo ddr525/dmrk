@@ -53,8 +53,8 @@ class App(customtkinter.CTk):
     def calculate(self, data):
         return self.tabview.show_result(data)
     
-    def update_all(self, gas_result):
-        self.tabview.update_all(gas_result)
+    def update_all(self, heating_data, gas_result):
+        self.tabview.update_all(heating_data, gas_result)
     
     def set_heating_data(self, heating_data):
         self.tabview.set_heating_data(heating_data)
