@@ -41,7 +41,7 @@ class TabPage(ctk.CTkTabview):
         # self.tab("Дополнительные параметры").rowconfigure((0), weight=1)
         # create tabs 
         self.grid_propagate(False)
-        self.configure(width=1500, height=1000)
+        self.configure(width=1700, height=1000)
         
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)

@@ -810,7 +810,8 @@ def MetallBurnCalculation(
     heating_hours = int(time_H // 3600)
     heating_minutes = (time_H / 3600 - heating_hours) * 60
 
-    n_cage = 2.2939 * tcpm - 1688
+    # n_cage = 2.2939 * tcpm - 1688
+    n_cage = 2.11 * (tcpm-273) - 1461.4 
 
     if(n_cage > 1150):
         n_cage = 1150
@@ -901,7 +902,7 @@ def MetallBurnCalculation(
     Qm_ = Qm / Qpr * 100
 
     results["Расчет нагрева металла"]["КПД нагрева, %"] = f"{Qm_:5.1f}"
-    results["Расход топлива"]["Удельный расход условного топлива, кг у.т. /т"] = f"{B_ud*Q/1_000_000/29.33:0.1f}"
+    results["Расчет нагрева металла"]["Удельный расход условного топлива, кг у.т. /т"] = f"{B_ud*Q/1_000_000/29.33:0.1f}"
     # print(f"КПД нагрева                          {Qm_:5.1f} %")
         
     Qr = QmMet+QfMet+QsioMet+QwindowMet

@@ -1,5 +1,5 @@
 import customtkinter as ctk 
-from tables.GraphView import GraphView
+# from tables.GraphView import GraphView
 from utilities import toFixed
 
 class KeyDesignParameters(ctk.CTkFrame):
@@ -119,7 +119,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         remaining_minutes = heating_data["График"]["время"] % 60
 
         self.newcell(calculation_table, row=7, column=0, text="Всего, ч:")  
-        self.newcell(calculation_table, row=7, column=1, text=f"{int(hours)}:{int(remaining_minutes) if int(remaining_minutes) > 9 else f"0{int(remaining_minutes)}"}") 
+        self.newcell(calculation_table, row=7, column=1, text=f"{int(hours)}:{int(remaining_minutes):02d}") 
         self.newcell(calculation_table, row=7, column=2, text="", columnspan=3)
         self.newcell(calculation_table, row=7, column=5, text="Целевой уровень:", columnspan=2)
         self.newcell(calculation_table, row=7, column=7, text="")
@@ -352,7 +352,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
 
         block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
-        block.grid( row=0, column=3, padx=(0,1), pady=1, sticky="ew") 
+        block.grid( row=0, column=4, padx=(0,1), pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
         cell = ctk.CTkLabel(block, text="кг/т", fg_color="#494949", corner_radius=0, font=self.font)
@@ -390,11 +390,12 @@ class KeyDesignParameters(ctk.CTkFrame):
         cell = ctk.CTkLabel(block, text="доля, %", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
         
-        zonelist = [1,2,3,4,5]
-        for row in zonelist:
-            self.newcell(lasttable, row=row+1, column=0, text=row)
-            self.newcell(lasttable, row=row+1, column=1, text="?")
-            self.newcell(lasttable, row=row+1, column=2, text="?")
+        zonedata = result["Расход топлива по зонам:"]
+        zonelist = ["в первой сварочной зоне", "в зоне нижнего подогрева 2", "во второй сварочной зоне", "в зоне нижнего подогрева 4", "в томильной зоне"]
+        for i, row in enumerate(zonelist):
+            self.newcell(lasttable, row=i+1, column=0, text=i+1)
+            self.newcell(lasttable, row=i+1, column=1, text=zonedata[f"{row}, тыс. м³/час"])
+            self.newcell(lasttable, row=i+1, column=2, text=zonedata[f"{row}, %"])
             
             
         lastrow=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
@@ -411,7 +412,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0, column=1, padx=0, pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="?", fg_color="#7c7878", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text=result["Удельный расход условного топлива, кг у.т. /т"], fg_color="#7c7878", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
 
         block=ctk.CTkFrame(lastrow, fg_color="#7c7878", corner_radius=0)
