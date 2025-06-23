@@ -901,7 +901,7 @@ def MetallBurnCalculation(
     Qm_ = Qm / Qpr * 100
 
     results["Расчет нагрева металла"]["КПД нагрева, %"] = f"{Qm_:5.1f}"
-
+    results["Расход топлива"]["Удельный расход условного топлива, кг у.т. /т"] = f"{B_ud*Q/1_000_000/29.33:0.1f}"
     # print(f"КПД нагрева                          {Qm_:5.1f} %")
         
     Qr = QmMet+QfMet+QsioMet+QwindowMet
@@ -909,9 +909,8 @@ def MetallBurnCalculation(
     Qm_ = QmMet/Qr*100
     Qf_ = QfMet/Qr*100
     Qsio_ = QsioMet/Qr*100
-    Qwindow_ = QwindowMet/Qr*100
-    
-    
+    Qwindow_ = QwindowMet/Qr*100 
+
     results["Тепловой баланс"]["Методическая зона верх"] = {
         "Приход тепла": {
             "Тепло транзитных газов, MВт" : f"{Qtr_Met_V / 1_000_000:5.2f}",

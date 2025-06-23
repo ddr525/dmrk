@@ -15,7 +15,7 @@ class ParameterList(customtkinter.CTkFrame):
         self.pir_cf.grid(row=0, column=0, padx=10, columnspan=2, pady=(5,0))
         
         # Добавляем label
-        self.pir_cf_l = customtkinter.CTkLabel(self.pir_cf_form, text="       N =   ", font=customtkinter.CTkFont(size=10, weight="bold"), justify='center', text_color="#ffffff")
+        self.pir_cf_l = customtkinter.CTkLabel(self.pir_cf_form, text="       η =   ", font=customtkinter.CTkFont(size=10, weight="bold"), justify='center', text_color="#ffffff")
         self.pir_cf_l.grid(row=1, column=0, padx=(10, 0), pady=0)
         
         # Добавляем поле ввода
@@ -58,7 +58,7 @@ class ParameterList(customtkinter.CTkFrame):
         self.air_con = customtkinter.CTkLabel(self.air_con_form, text="Коэффициент расхода воздуха", font=customtkinter.CTkFont(size=10, weight="bold"), justify='center', text_color="#ffffff")
         self.air_con.grid(row=0, column=0, padx=10, columnspan=2, pady=(5,0))
 
-        self.air_con_l = customtkinter.CTkLabel(self.air_con_form, text="     ld =   ", font=customtkinter.CTkFont(size=10, weight="bold"), justify='center', anchor='w', text_color="#ffffff")
+        self.air_con_l = customtkinter.CTkLabel(self.air_con_form, text="     α =   ", font=customtkinter.CTkFont(size=10, weight="bold"), justify='center', anchor='w', text_color="#ffffff")
         self.air_con_l.grid(row=1, column=0, padx=(10, 0), pady=(0,5))
 
         self.air_con_v = customtkinter.CTkEntry(self.air_con_form, height=20, width=150)

@@ -79,13 +79,13 @@ class EditWindow(customtkinter.CTkToplevel):
                 self.text_boxes.append((key, list_item_text_box))
                 row_counter += 1
 
-            # # Процентный состав данного газа в смешанном газе
-            # list_item = customtkinter.CTkLabel(self, text="Процентный состав:", font=customtkinter.CTkFont(size=12, weight="bold"))
-            # list_item.grid(row=row_counter, column=0, padx=10, pady=10)
-            # list_item_text_box = customtkinter.CTkEntry(self, height=20, width=160)
-            # list_item_text_box.grid(row=row_counter, column=1, padx=(10,0), pady=5)
-            # list_item_text_box.insert(0, "20")
-            # self.text_boxes.append(("Процентный состав", list_item_text_box))
+            # Процентный состав данного газа в смешанном газе
+            list_item = customtkinter.CTkLabel(self, text="Процентный состав:", font=customtkinter.CTkFont(size=12, weight="bold"))
+            list_item.grid(row=row_counter, column=0, padx=10, pady=10)
+            list_item_text_box = customtkinter.CTkEntry(self, height=20, width=160)
+            list_item_text_box.grid(row=row_counter, column=1, padx=(10,0), pady=5)
+            list_item_text_box.insert(0, "20")
+            self.text_boxes.append(("Процентный состав", list_item_text_box))
         else:
             list_item_text_box = customtkinter.CTkEntry(self, height=20, width=160, state='normal')
             list_item_text_box.insert(0, self.data_index.name)
@@ -104,19 +104,19 @@ class EditWindow(customtkinter.CTkToplevel):
                 self.text_boxes.append((e.component, list_item_text_box))
                 row_counter += 1
 
-            # # Процентный состав данного газа в смешанном газе
-            # list_item = customtkinter.CTkLabel(self, text="Процентный состав:", font=customtkinter.CTkFont(size=12, weight="bold"))
-            # list_item.grid(row=row_counter, column=0, padx=10, pady=10)
-            # list_item_text_box = customtkinter.CTkEntry(self, height=20, width=160)
-            # list_item_text_box.grid(row=row_counter, column=1, padx=(10,0), pady=5)
+            # Процентный состав данного газа в смешанном газе
+            list_item = customtkinter.CTkLabel(self, text="Процентный состав:", font=customtkinter.CTkFont(size=12, weight="bold"))
+            list_item.grid(row=row_counter, column=0, padx=10, pady=10)
+            list_item_text_box = customtkinter.CTkEntry(self, height=20, width=160)
+            list_item_text_box.grid(row=row_counter, column=1, padx=(10,0), pady=5)
 
-            # if("Доменный газ" not in self.data_index.name):
-            #     list_item_text_box.insert(0, self.data_index.mixed_percentage)
-            # else:
-            #     list_item_text_box.insert(0, self.database.get_percentage())
-            #     list_item_text_box.configure(state="disabled")
+            if("Доменный газ" not in self.data_index.name):
+                list_item_text_box.insert(0, self.data_index.mixed_percentage)
+            else:
+                list_item_text_box.insert(0, self.database.get_percentage())
+                list_item_text_box.configure(state="disabled")
             
-            # self.text_boxes.append(("Процентный состав", list_item_text_box))
+            self.text_boxes.append(("Процентный состав", list_item_text_box))
 
         row_counter += 1
 

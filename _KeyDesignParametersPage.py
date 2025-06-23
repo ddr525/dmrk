@@ -10,9 +10,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         self.database = database
         
         self.font=ctk.CTkFont(size=13, weight="bold")
-        self.list = database.get_gases()
-        
-        # self.update()
+        self.list = database.get_gases() 
     
     def update(self, heating_data, gas_result):
         firstblock = ctk.CTkFrame(self, fg_color="transparent")
@@ -39,7 +37,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         #----------row=0---------------------------------
         self.newcell(calculation_table, row=0, column=0, text="№1") 
          
-        block=ctk.CTkFrame(calculation_table, fg_color="transparent", corner_radius=0)
+        block=ctk.CTkFrame(calculation_table, fg_color="transparent", corner_radius=0, border_width=1 , border_color="black")
         block.grid(
             row=0, 
             column=1, 
@@ -64,57 +62,57 @@ class KeyDesignParameters(ctk.CTkFrame):
   
         self.newcell(calculation_table, row=1, column=7, text="\nСредне\nмассовая\nтемпература сляба на\nвыдаче, °С", rowspan=5, sticky="nsew", wraplength=120) 
         self.newcell(calculation_table, row=1, column=8, text="\nКонечный\nперепад\nтемпературы\nпо толщине\nсляба\nна выдаче, °С", rowspan=5, sticky="nsew", wraplength=120) 
-        self.newcell(calculation_table, row=1, column=9, text="\nТемпература\nраската за\nпятой\nклетью Т5,  °С", rowspan=5, sticky="nsew", wraplength=120) 
+        self.newcell(calculation_table, row=1, column=9, text="\nТемпература\nраската за\nпятой\nклетью Т5,  °С", rowspan=5, sticky="nsew", wraplength=120, padx=(1,2)) 
         #---------------------------------------------------------
 
         #----------------------row=2------------------------------  
         self.newcell(calculation_table, row=2, column=0, text="посад") 
         self.newcell(calculation_table, row=2, column=1, text="0") 
-        self.newcell(calculation_table, row=2, column=2, text=round(float(result["Методическая зона"]["tпечи, °C"].split("-")[0].strip()), 2))
-        self.newcell(calculation_table, row=2, column=3, text=round(float(result["Методическая зона"]["tниз, °C"].split("-")[0].strip()), 2))
-        self.newcell(calculation_table, row=2, column=4, text=round(heating_data["t_data"]["Температура верха печи при посаде"], 2))
-        self.newcell(calculation_table, row=2, column=5, text=round(heating_data["t_data"]["Температура сляба при посаде"], 2)) 
-        self.newcell(calculation_table, row=2, column=6, text=round(heating_data["t_data"]["Температура низа печи при посаде"], 2)) 
+        self.newcell(calculation_table, row=2, column=2, text=round(float(result["Методическая зона"]["tпечи, °C"].split("-")[0].strip())))
+        self.newcell(calculation_table, row=2, column=3, text=round(float(result["Методическая зона"]["tниз, °C"].split("-")[0].strip())))
+        self.newcell(calculation_table, row=2, column=4, text=round(heating_data["t_data"]["Температура верха печи при посаде"]))
+        self.newcell(calculation_table, row=2, column=5, text=round(heating_data["t_data"]["Температура сляба при посаде"])) 
+        self.newcell(calculation_table, row=2, column=6, text=round(heating_data["t_data"]["Температура низа печи при посаде"])) 
         #---------------------------------------------------------
         #----------------------row=3------------------------------ 
         self.newcell(calculation_table, row=3, column=0, text="метод.") 
         self.newcell(calculation_table, row=3, column=1, text=self.time_percent(all_time, heating_data["data"]["Время в методической зоне"])) 
-        self.newcell(calculation_table, row=3, column=2, text=round(float(result["Методическая зона"]["tпечи, °C"].split("-")[1].strip()), 2))
-        self.newcell(calculation_table, row=3, column=3, text=round(float(result["Методическая зона"]["tниз, °C"].split("-")[1].strip()), 2))
-        self.newcell(calculation_table, row=3, column=4, text=round(result["Методическая зона"]["tпов1, °C"], 2))
-        self.newcell(calculation_table, row=3, column=5, text=round(result["Методическая зона"]["Tц, °C"], 2))
-        self.newcell(calculation_table, row=3, column=6, text=round(result["Методическая зона"]["tпов2, °C"], 2))
+        self.newcell(calculation_table, row=3, column=2, text=round(float(result["Методическая зона"]["tпечи, °C"].split("-")[1].strip())))
+        self.newcell(calculation_table, row=3, column=3, text=round(float(result["Методическая зона"]["tниз, °C"].split("-")[1].strip())))
+        self.newcell(calculation_table, row=3, column=4, text=round(result["Методическая зона"]["tпов1, °C"]))
+        self.newcell(calculation_table, row=3, column=5, text=round(result["Методическая зона"]["Tц, °C"]))
+        self.newcell(calculation_table, row=3, column=6, text=round(result["Методическая зона"]["tпов2, °C"]))
         #---------------------------------------------------------
         #----------------------row=4------------------------------ 
         self.newcell(calculation_table, row=4, column=0, text="1/2 зона") 
         self.newcell(calculation_table, row=4, column=1, text=self.time_percent(all_time, heating_data["data"]["Время в первой сварочной зоне"])) 
-        self.newcell(calculation_table, row=4, column=2, text=round(float(result["Первая сварочная зона"]["tпечи, °C"].split("-")[1].strip()), 2)) 
-        self.newcell(calculation_table, row=4, column=3, text=round(float(result["Первая сварочная зона"]["tниз, °C"].split("-")[1].strip()), 2)) 
-        self.newcell(calculation_table, row=4, column=4, text=round(result["Первая сварочная зона"]["tпов1, °C"], 2))
-        self.newcell(calculation_table, row=4, column=5, text=round(result["Первая сварочная зона"]["Tц, °C"], 2)) 
-        self.newcell(calculation_table, row=4, column=6, text=round(result["Первая сварочная зона"]["tпов2, °C"], 2)) 
+        self.newcell(calculation_table, row=4, column=2, text=round(float(result["Первая сварочная зона"]["tпечи, °C"].split("-")[1].strip()))) 
+        self.newcell(calculation_table, row=4, column=3, text=round(float(result["Первая сварочная зона"]["tниз, °C"].split("-")[1].strip()))) 
+        self.newcell(calculation_table, row=4, column=4, text=round(result["Первая сварочная зона"]["tпов1, °C"]))
+        self.newcell(calculation_table, row=4, column=5, text=round(result["Первая сварочная зона"]["Tц, °C"])) 
+        self.newcell(calculation_table, row=4, column=6, text=round(result["Первая сварочная зона"]["tпов2, °C"])) 
         #---------------------------------------------------------
         #----------------------row=5------------------------------ 
         self.newcell(calculation_table, row=5, column=0, text="3/4 зона") 
         self.newcell(calculation_table, row=5, column=1, text=self.time_percent(all_time, heating_data["data"]["Время во второй сварочной зоне"])) 
-        self.newcell(calculation_table, row=5, column=2, text=round(result["Томильная зона"]["tпечи, °C"], 2))
-        self.newcell(calculation_table, row=5, column=3, text=round(float(result["Первая сварочная зона"]["tниз, °C"].split("-")[1].strip()), 2))  
-        self.newcell(calculation_table, row=5, column=4, text=round(result["Вторая сварочная зона"]["tпов1, °C"], 2)) 
-        self.newcell(calculation_table, row=5, column=5, text=round(result["Вторая сварочная зона"]["Tц, °C"], 2))
-        self.newcell(calculation_table, row=5, column=6, text=round(result["Вторая сварочная зона"]["tпов2, °C"], 2))
+        self.newcell(calculation_table, row=5, column=2, text=round(result["Томильная зона"]["tпечи, °C"]))
+        self.newcell(calculation_table, row=5, column=3, text=round(float(result["Первая сварочная зона"]["tниз, °C"].split("-")[1].strip())))  
+        self.newcell(calculation_table, row=5, column=4, text=round(result["Вторая сварочная зона"]["tпов1, °C"])) 
+        self.newcell(calculation_table, row=5, column=5, text=round(result["Вторая сварочная зона"]["Tц, °C"]))
+        self.newcell(calculation_table, row=5, column=6, text=round(result["Вторая сварочная зона"]["tпов2, °C"]))
         #---------------------------------------------------------
         #----------------------row=6------------------------------
         self.newcell(calculation_table, row=6, column=0, text="5 зона")  
         self.newcell(calculation_table, row=6, column=1, text=self.time_percent(all_time, heating_data["data"]["Время в томильной зоне"])) 
-        self.newcell(calculation_table, row=6, column=2, text=round(result["Томильная зона"]["tпечи, °C"], 2)) 
+        self.newcell(calculation_table, row=6, column=2, text=round(result["Томильная зона"]["tпечи, °C"])) 
         self.newcell(calculation_table, row=6, column=3, text="X") 
-        self.newcell(calculation_table, row=6, column=4, text=round(result["Томильная зона"]["tпов1, °C"], 2)) 
-        self.newcell(calculation_table, row=6, column=5, text=round(result["Томильная зона"]["Tц, °C"], 2)) 
-        self.newcell(calculation_table, row=6, column=6, text=round(result["Томильная зона"]["tпов2, °C"], 2))
+        self.newcell(calculation_table, row=6, column=4, text=round(result["Томильная зона"]["tпов1, °C"])) 
+        self.newcell(calculation_table, row=6, column=5, text=round(result["Томильная зона"]["Tц, °C"])) 
+        self.newcell(calculation_table, row=6, column=6, text=round(result["Томильная зона"]["tпов2, °C"]))
 
-        self.newcell(calculation_table, row=6, column=7, text="") 
-        self.newcell(calculation_table, row=6, column=8, text="")
-        self.newcell(calculation_table, row=6, column=9, text="") 
+        self.newcell(calculation_table, row=6, column=7, text=result["Среднемассовая температура металла, °C"])
+        self.newcell(calculation_table, row=6, column=8, text=result["Конечный перепад температур, °C"])
+        self.newcell(calculation_table, row=6, column=9, text=result["Температура раската за пятой клетью (T5), °C"], padx=(1,2)) 
         #---------------------------------------------------------
         #----------------------row=7------------------------------
         hours = heating_data["График"]["время"] // 60
@@ -124,9 +122,9 @@ class KeyDesignParameters(ctk.CTkFrame):
         self.newcell(calculation_table, row=7, column=1, text=f"{int(hours)}:{int(remaining_minutes) if int(remaining_minutes) > 9 else f"0{int(remaining_minutes)}"}") 
         self.newcell(calculation_table, row=7, column=2, text="", columnspan=3)
         self.newcell(calculation_table, row=7, column=5, text="Целевой уровень:", columnspan=2)
-        self.newcell(calculation_table, row=7, column=7, text=result["Среднемассовая температура металла, °C"])
-        self.newcell(calculation_table, row=7, column=8, text=result["Конечный перепад температур, °C"])
-        self.newcell(calculation_table, row=7, column=9, text=result["Температура раската за пятой клетью (T5), °C"])
+        self.newcell(calculation_table, row=7, column=7, text="")
+        self.newcell(calculation_table, row=7, column=8, text="")
+        self.newcell(calculation_table, row=7, column=9, text="", padx=(1,2))
         #--------------------------------------------------------- 
 
         parameters_block_top = ctk.CTkFrame(parameters, border_color="black", border_width=0, fg_color="#7c7878", corner_radius=0, bg_color="#7c7878")
@@ -329,28 +327,35 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0, column=0, padx=1, pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="Расход топлива за печь", fg_color="#494949", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text="Расход топлива на печь", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
         
         block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
         block.grid( row=0, column=1, padx=(0,1), pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="м3/ч", fg_color="#494949", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text="тыс.м3/ч", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
 
         block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
         block.grid( row=0, column=2, padx=(0,1), pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="м3/т", fg_color="#494949", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text="тыс.м3/т", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
 
         block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
         block.grid( row=0, column=3, padx=(0,1), pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="пр.м3/т", fg_color="#494949", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text="пр.тыс.м3/т", fg_color="#494949", corner_radius=0, font=self.font)
+        cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
+
+        block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
+        block.grid( row=0, column=3, padx=(0,1), pady=1, sticky="ew") 
+        block.grid_rowconfigure(0, weight=1)
+        block.grid_columnconfigure(0, weight=1)
+        cell = ctk.CTkLabel(block, text="кг/т", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
         
         for row, value in enumerate(self.list):
@@ -358,6 +363,7 @@ class KeyDesignParameters(ctk.CTkFrame):
             self.newcell(fourthtable, row=row+1, column=1, text="?")
             self.newcell(fourthtable, row=row+1, column=2, text="?")
             self.newcell(fourthtable, row=row+1, column=3, text="?")
+            self.newcell(fourthtable, row=row+1, column=4, text="?")
             
             
         lasttable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
@@ -415,12 +421,14 @@ class KeyDesignParameters(ctk.CTkFrame):
         cell = ctk.CTkLabel(block, text="кг у.т./т", fg_color="#7c7878", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
 
-    def newcell(self, table, row, column, text, columnspan=0, rowspan=0, sticky="ew", wraplength=0, border_color="black", border_width=0, fg_color="#7c7878"):
+    def newcell(self, table, row, column, text, columnspan=0, rowspan=0, sticky="ew", wraplength=0, border_color="black", border_width=0, fg_color="#7c7878", padx=0):
         block=ctk.CTkFrame(table, border_color=border_color, border_width=border_width, fg_color=fg_color, corner_radius=0)
+        if padx==0:
+            padx = ((1,0) if column == 0 or column == 1 else (1,1))
         block.grid(
             row=row, 
             column=column, 
-            padx=((1,0) if column == 0 or column == 1 else (1,1)), 
+            padx=padx, 
             pady=((1,0) if row == 0 else (0,1)), 
             sticky=sticky
             ) 
@@ -436,3 +444,4 @@ class KeyDesignParameters(ctk.CTkFrame):
 
     def time_percent(self, all_time, current_time):
         return round(float((current_time / all_time) * 100), 2)
+    

@@ -156,8 +156,6 @@ class AllParameters(customtkinter.CTkFrame):
         twTom._entry.configure(insertbackground="white", insertwidth=2)
         self.params["5 зона"] = twTom
 
-        #----------------------------------- (доделать)
-
         #------------------Кнопка "Просчитать"-------------------------
         add_button = customtkinter.CTkButton(self, text="Просчитать", fg_color='#ac0d0d',font=self.font, hover_color="#d81111", width=200
                                              , command=lambda: self._calculate(
@@ -279,15 +277,13 @@ class AllParameters(customtkinter.CTkFrame):
                     dst1, dst2, r1, r2, r3, dtdop, n, time_H, tMet_per, tSv1_per, tSv2_per, tTom_per, Fmet, Fsv1, Fsv2, Ftom,
                     LsioMet, LsioSv1, LsioSv2, LsioTom, LsioPercent,
                     Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv) 
-        self.database.save_heating_data(exp, heating_data)
-        print(heating_data)
-        # self.master.set_heating_data(heating_data)
+        self.database.save_heating_data(exp, heating_data) 
+        
         self.master.update_all(heating_data, result)
 
 
     def show_result(self, data):
-        res = [
-            # ("pie", data[0]),
+        res = [ 
             ("Низшая рабочая теплота\nсгорания смеси, ккал/м³ (при 20°C)", toFixed(data[4], 3)),
             ("Цена смешанного газа, тг/1000м³", toFixed(data[2], 1)),
             ("cards", data[5]),
@@ -308,8 +304,5 @@ class AllParameters(customtkinter.CTkFrame):
             res.insert(0 + row, (f"Низшая рабочая теплота\nсгорания - {key},\nккал/м³ (при 20°C)", toFixed(value, 3)))
 
         for row, (key, value) in enumerate(data[0].items()):
-            res.insert(0 + row, (f"{key}, %", toFixed(value, 1)))
-
-        # self.update(res)
-
+            res.insert(0 + row, (f"{key}, %", toFixed(value, 1))) 
         return res, data[12]
