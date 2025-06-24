@@ -211,12 +211,11 @@ class AllParameters(customtkinter.CTkFrame):
 
         data = FuilBurnCalculation(gases, n, tv, tg, l, params) 
         result, gas_data = self.show_result(data) 
-
         # Запись результатов
         exp = self.database.save_gas_results("Расчет горения топлива", result) ## uncomment in prod
 
         Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv = self.database.save_gas_to_metal_exp_data(exp, gas_data) ## uncomment in prod
-
+        
         # Геометрические параметры
         s = self.database.get_parameters("Толщина сляба (s)").value
         bb = self.database.get_parameters("Длина сляба (bb)").value
@@ -277,7 +276,13 @@ class AllParameters(customtkinter.CTkFrame):
                     dst1, dst2, r1, r2, r3, dtdop, n, time_H, tMet_per, tSv1_per, tSv2_per, tTom_per, Fmet, Fsv1, Fsv2, Ftom,
                     LsioMet, LsioSv1, LsioSv2, LsioTom, LsioPercent,
                     Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv) 
+        
+        
+
         self.database.save_heating_data(exp, heating_data) 
+
+        self.database.save_fuilburn_results("Расчет горения топлива", result) ## uncomment in prod
+
         
         self.master.update_all(heating_data, result)
 
@@ -285,7 +290,7 @@ class AllParameters(customtkinter.CTkFrame):
     def show_result(self, data):
         res = [ 
             ("Низшая рабочая теплота\nсгорания смеси, ккал/м³ (при 20°C)", toFixed(data[4], 3)),
-            ("Цена смешанного газа, тг/1000м³", toFixed(data[2], 1)),
+            ("Цена смешанного газа, тг", toFixed(data[2], 1)),
             ("cards", data[5]),
             ("Плотность газа при н.у., кг/м³", toFixed(data[6], 3)),
             ("Действительный расход воздуха, м³/м³", toFixed(data[7], 3)),

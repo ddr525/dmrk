@@ -110,9 +110,9 @@ class KeyDesignParameters(ctk.CTkFrame):
         self.newcell(calculation_table, row=6, column=5, text=round(result["Томильная зона"]["Tц, °C"])) 
         self.newcell(calculation_table, row=6, column=6, text=round(result["Томильная зона"]["tпов2, °C"]))
 
-        self.newcell(calculation_table, row=6, column=7, text=result["Среднемассовая температура металла, °C"])
-        self.newcell(calculation_table, row=6, column=8, text=result["Конечный перепад температур, °C"])
-        self.newcell(calculation_table, row=6, column=9, text=result["Температура раската за пятой клетью (T5), °C"], padx=(1,2)) 
+        self.newcell(calculation_table, row=6, column=7, text="")
+        self.newcell(calculation_table, row=6, column=8, text="")
+        self.newcell(calculation_table, row=6, column=9, text="", padx=(1,2)) 
         #---------------------------------------------------------
         #----------------------row=7------------------------------
         hours = heating_data["График"]["время"] // 60
@@ -122,9 +122,9 @@ class KeyDesignParameters(ctk.CTkFrame):
         self.newcell(calculation_table, row=7, column=1, text=f"{int(hours)}:{int(remaining_minutes):02d}") 
         self.newcell(calculation_table, row=7, column=2, text="", columnspan=3)
         self.newcell(calculation_table, row=7, column=5, text="Целевой уровень:", columnspan=2)
-        self.newcell(calculation_table, row=7, column=7, text="")
-        self.newcell(calculation_table, row=7, column=8, text="")
-        self.newcell(calculation_table, row=7, column=9, text="", padx=(1,2))
+        self.newcell(calculation_table, row=7, column=7, text=result["Среднемассовая температура металла, °C"])
+        self.newcell(calculation_table, row=7, column=8, text=result["Конечный перепад температур, °C"])
+        self.newcell(calculation_table, row=7, column=9, text=result["Температура раската за пятой клетью (T5), °C"], padx=(1,2))
         #--------------------------------------------------------- 
 
         parameters_block_top = ctk.CTkFrame(parameters, border_color="black", border_width=0, fg_color="#7c7878", corner_radius=0, bg_color="#7c7878")
@@ -341,14 +341,14 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0, column=2, padx=(0,1), pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="тыс.м3/т", fg_color="#494949", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text="м3/т", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
 
         block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)
         block.grid( row=0, column=3, padx=(0,1), pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="пр.тыс.м3/т", fg_color="#494949", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text="пр.м3/т", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
 
         block=ctk.CTkFrame(fourthtable, fg_color="#494949", corner_radius=0)

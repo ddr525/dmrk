@@ -214,6 +214,15 @@ class Database():
 
         return self.get_last_experiment()
 
+    def save_fuilburn_results(self, results):
+        exp_res = []
+
+        for (name, value) in results:
+            exp_res.append(ExperimentResult(
+                parameter = name,
+                value = value
+            ))
+
     def save_gas_to_metal_exp_data(self, exp, data):
         res = []
 
