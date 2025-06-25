@@ -28,20 +28,10 @@ class TabPage(ctk.CTkTabview):
         
         self.database = database
         self.master = master
-        self.resize_task_id  = None  # Таймер для дебаунсинга
-        # self.add("Ключевые расчетные параметры")
-        # self.add("Тепловой баланс")
-        # self.add("Дополнительные параметры")
-        
-        # self.tab("Ключевые расчетные параметры").columnconfigure((0), weight=1)
-        # self.tab("Ключевые расчетные параметры").rowconfigure((0), weight=1)
-        # self.tab("Тепловой баланс").columnconfigure((0), weight=1)
-        # self.tab("Тепловой баланс").rowconfigure((0), weight=1)
-        # self.tab("Дополнительные параметры").columnconfigure((0), weight=1)
-        # self.tab("Дополнительные параметры").rowconfigure((0), weight=1)
+        self.resize_task_id  = None  # Таймер для дебаунсинга 
         # create tabs 
         self.grid_propagate(False)
-        self.configure(width=1700, height=1000)
+        self.configure(width=1700, height=1100)
         
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -66,16 +56,7 @@ class TabPage(ctk.CTkTabview):
         
         self.keydesign.grid(row=0, column=0, sticky="nsew")
         self.balance.grid(row=0, column=0, sticky="nsew")
-        self.addparams.grid(row=0, column=0, sticky="nsew")
-
-        # self.cards.bind_all("<Button-4>", lambda e: [frame._parent_canvas.yview("scroll", -1, "units") for frame in (self.cards)])
-        # self.cards.bind_all("<Button-5>", lambda e: [frame._parent_canvas.yview("scroll", 1, "units") for frame in (self.cards)])
-
-        # self.cards.bind_all("<MouseWheel>", self._on_mousewheel)
-
-        # self.set("Тепловой баланс")
-
-        # self.master.bind("<Configure>", self.on_resize)
+        self.addparams.grid(row=0, column=0, sticky="nsew") 
      
     def open_last(self):
         self.cards.start_up()

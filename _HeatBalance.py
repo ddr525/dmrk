@@ -191,6 +191,5 @@ class HeatBalance(ctk.CTkFrame):
             block.grid_configure(rowspan=rowspan)
 
     def change(self):
-        self.view_data = "%" if self.view_data == "MВт" else "MВт"
-        print(self.view_data)
+        self.view_data = "%" if self.view_data == "MВт" else "MВт" 
         # self.update()

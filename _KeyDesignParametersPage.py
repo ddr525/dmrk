@@ -1,5 +1,6 @@
 import customtkinter as ctk 
 # from tables.GraphView import GraphView
+from tables.GraphView import GraphView
 from utilities import toFixed
 
 class KeyDesignParameters(ctk.CTkFrame):
@@ -17,6 +18,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         firstblock.grid(row=0, column=0)
 
         result = heating_data["Расчет нагрева металла"]
+        print(result)
         all_time = heating_data["data"]["Время нагрева (time_H)"]
 
         #-----------таблица----------------------
@@ -30,8 +32,8 @@ class KeyDesignParameters(ctk.CTkFrame):
         #----------------------------------------
 
         #-----------график-----------------------
-        # graph = ctk.CTkFrame(firstblock, fg_color="black", corner_radius=0, border_width=1, border_color="black")
-        # graph.grid(row=2,column=0)
+        graph = ctk.CTkFrame(firstblock, fg_color="black", corner_radius=0, border_width=1, border_color="black")
+        graph.grid(row=2,column=0)
         #----------------------------------------
 
         #----------row=0---------------------------------
@@ -150,7 +152,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0,column=2,padx=(0,1),pady=(0,1),sticky="ew" ) 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text=result["Масса сляба, т"], fg_color="transparent", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
 
         
@@ -165,7 +167,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0,column=4,padx=(0),pady=(0,1),sticky="ew" ) 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text=result["Ширина сляба"], fg_color="transparent", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
 
         
@@ -180,7 +182,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0,column=6,padx=(0,1),pady=(0,1),sticky="ew" ) 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text=result["Длина сляба"], fg_color="transparent", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
         
         block=ctk.CTkFrame(parameters_block_top, border_color="black", border_width=1, fg_color="#494949", corner_radius=0)
@@ -194,7 +196,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0,column=8,padx=(0,1),pady=(0,1),sticky="ew" ) 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text=result["Толщина сляба"], fg_color="transparent", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
 
 
@@ -214,7 +216,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0,column=1,padx=(0,1),pady=(0,1),sticky="ew" ) 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0)
+        cell = ctk.CTkLabel(block, text=result["Марка стали"], fg_color="transparent", corner_radius=0)
         cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
 
         
@@ -229,14 +231,15 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid( row=0,column=3,padx=(0,1),pady=(0,1),sticky="ew" ) 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
-        cell = ctk.CTkLabel(block, text="", fg_color="transparent", corner_radius=0, font=self.font)
+        cell = ctk.CTkLabel(block, text=result["Производительность печи, т/час"], fg_color="transparent", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=1, sticky="ew")
 
 
 
 
-        # block=GraphView(graph, database=self.database)
-        # block.grid(row=0, column=0)
+        block=GraphView(graph, database=self.database, heating_data=heating_data)
+        block.grid(row=0, column=0)
+        # block.grid_propagate(False)
 
         secondblock = ctk.CTkFrame(self, fg_color="transparent")
         secondblock.grid(row=0, column=1, padx=20, sticky="n")
@@ -273,10 +276,13 @@ class KeyDesignParameters(ctk.CTkFrame):
         cell = ctk.CTkLabel(block, text="Калорийность", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
         
+        clean_data = [(k, v) for k, v in gas_result if isinstance(v, str)]
+        gas_dict = dict(clean_data)
+
         for row, value in enumerate(self.list):
             self.newcell(secondtable, row=row+1, column=0, text=value.name)
             self.newcell(secondtable, row=row+1, column=1, text=gas_result[row][1])
-            self.newcell(secondtable, row=row+1, column=2, text="?")
+            self.newcell(secondtable, row=row+1, column=2, text=gas_dict[f"Низшая рабочая теплота\nсгорания - {value.name},\nккал/м³ (при 20°C)"])
 
 
         thirdtable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
@@ -357,13 +363,13 @@ class KeyDesignParameters(ctk.CTkFrame):
         block.grid_columnconfigure(0, weight=1)
         cell = ctk.CTkLabel(block, text="кг/т", fg_color="#494949", corner_radius=0, font=self.font)
         cell.grid(row=0, column=0, padx=15, pady=0, sticky="ew")
-        
+
         for row, value in enumerate(self.list):
             self.newcell(fourthtable, row=row+1, column=0, text=value.name)
-            self.newcell(fourthtable, row=row+1, column=1, text="?")
-            self.newcell(fourthtable, row=row+1, column=2, text="?")
-            self.newcell(fourthtable, row=row+1, column=3, text="?")
-            self.newcell(fourthtable, row=row+1, column=4, text="?")
+            self.newcell(fourthtable, row=row+1, column=1, text=gas_dict.get(f"Расход топлива в ч\n{value.name}, м³/ч", '-'))
+            self.newcell(fourthtable, row=row+1, column=2, text=gas_dict.get(f"Расход топлива в т\n{value.name}, м³/т", '-'))
+            self.newcell(fourthtable, row=row+1, column=3, text=gas_dict.get(f"Расход топлива в пр.т\n{value.name}, пр.м3/т", '-'))
+            self.newcell(fourthtable, row=row+1, column=4, text="-")
             
             
         lasttable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
@@ -395,7 +401,7 @@ class KeyDesignParameters(ctk.CTkFrame):
         for i, row in enumerate(zonelist):
             self.newcell(lasttable, row=i+1, column=0, text=i+1)
             self.newcell(lasttable, row=i+1, column=1, text=zonedata[f"{row}, тыс. м³/час"])
-            self.newcell(lasttable, row=i+1, column=2, text=zonedata[f"{row}, %"])
+            self.newcell(lasttable, row=i+1, column=2, text=zonedata[f"{row}, %"], padx=(1,2))
             
             
         lastrow=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)

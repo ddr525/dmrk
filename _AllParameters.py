@@ -280,7 +280,11 @@ class AllParameters(customtkinter.CTkFrame):
 
 
         self.database.save_heating_data(exp, heating_data) 
-
+        heating_data["Расчет нагрева металла"]["Толщина сляба"] = s
+        heating_data["Расчет нагрева металла"]["Длина сляба"] = bb
+        heating_data["Расчет нагрева металла"]["Ширина сляба"] = a
+        heating_data["Расчет нагрева металла"]["Длина печи"] = Lp
+        heating_data["Расчет нагрева металла"]["Марка стали"] = str(self.database.get_parameters("Марка стали (группа нагрева)").value_str) 
         fuel_consumption = FuelСonsumptionCalculation(
             gases, 
             heating_data["Расчет нагрева металла"]["Расход топлива на печь, тыс. м³/час"],
@@ -288,9 +292,9 @@ class AllParameters(customtkinter.CTkFrame):
             result,
             self.params
             )
-        result.extend(fuel_consumption)
+        result.extend(fuel_consumption) 
         self.database.save_fuilburn_results(fuel_consumption) ## uncomment in prod
-        self.master.update_all(heating_data, result)
+        self.master.update_all(heating_data, result) 
 
 
     def show_result(self, data):
