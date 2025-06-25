@@ -1,5 +1,5 @@
 import numpy as np
-from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, ForeignKey, or_
+from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, ForeignKey, or_, select
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
 
 from Entities import *
@@ -213,15 +213,21 @@ class Database():
         self.session.commit() ## uncomment in prod
 
         return self.get_last_experiment()
+    
+    def save_fuilburn_results(self, data): 
+        exp = self.session.query(Experiment).order_by(Experiment.id.desc()).first()
+        # experiment = self.get_last_experiment() 
 
-    def save_fuilburn_results(self, results):
-        exp_res = []
+        for name, value in data:
+            result = ExperimentResult(
+                parameter=name,
+                value=float(value),
+                experiment_id=exp.id
+            )
+            self.session.add(result)
 
-        for (name, value) in results:
-            exp_res.append(ExperimentResult(
-                parameter = name,
-                value = value
-            ))
+        self.session.commit()
+        return self.get_last_experiment() 
 
     def save_gas_to_metal_exp_data(self, exp, data):
         res = []

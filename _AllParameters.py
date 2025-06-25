@@ -2,7 +2,7 @@ import customtkinter
 
 from CTkMessagebox import CTkMessagebox 
 
-from _Calculations import MetallBurnCalculation
+from _Calculations import MetallBurnCalculation, FuelСonsumptionCalculation
 from utilities import toFixed
 
 class AllParameters(customtkinter.CTkFrame):
@@ -277,13 +277,19 @@ class AllParameters(customtkinter.CTkFrame):
                     LsioMet, LsioSv1, LsioSv2, LsioTom, LsioPercent,
                     Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv) 
         
-        
+
 
         self.database.save_heating_data(exp, heating_data) 
 
-        self.database.save_fuilburn_results("Расчет горения топлива", result) ## uncomment in prod
-
-        
+        fuel_consumption = FuelСonsumptionCalculation(
+            gases, 
+            heating_data["Расчет нагрева металла"]["Расход топлива на печь, тыс. м³/час"],
+            heating_data["Расчет нагрева металла"]["Производительность печи, т/час"],
+            result,
+            self.params
+            )
+        result.extend(fuel_consumption)
+        self.database.save_fuilburn_results(fuel_consumption) ## uncomment in prod
         self.master.update_all(heating_data, result)
 
 

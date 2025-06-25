@@ -430,7 +430,7 @@ class KeyDesignParameters(ctk.CTkFrame):
             row=row, 
             column=column, 
             padx=padx, 
-            pady=((1,0) if row == 0 else (0,1)), 
+            pady=((1,0) if row == 0 else (0,1)),
             sticky=sticky
             ) 
         block.grid_rowconfigure(0, weight=1)

@@ -3,19 +3,18 @@ from matplotlib import pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+from FluidBurnPage import FluidBurnPage
+
 from utilities import toFixed
 
-class GraphView(ctk.CTkScrollableFrame):
+class GraphView(ctk.CTkFrame):
 
-    def __init__(self, master, page, root, database, *args, **kwargs):
+    def __init__(self, master, database, *args, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.database = database
-        self.root = root
-        self.page = page
+        self.database = database 
 
         self.columnconfigure((0), weight=1)
-
         self.update()
 
 
@@ -26,10 +25,8 @@ class GraphView(ctk.CTkScrollableFrame):
     def update(self):
         self._clear()
 
-        if "График" not in self.page.get_heating_data():
-            return
-
-        graph = self.page.get_heating_data()["График"]
+        data = FluidBurnPage(self,self,self.database)
+        graph = data.get_heating_data()["График"]
         
         # Преобразование данных в numpy массивы
         t = np.array(graph["t"])
@@ -41,7 +38,7 @@ class GraphView(ctk.CTkScrollableFrame):
         tmnG = np.array(graph["Металл (низ)"])
 
         # Создание фигуры
-        fig, ax = plt.subplots(figsize=(5, 7), dpi=100)
+        fig, ax = plt.subplots(figsize=(8, 5), dpi=100)
         fig.patch.set_alpha(0)
         ax.patch.set_alpha(0)
 
@@ -58,9 +55,11 @@ class GraphView(ctk.CTkScrollableFrame):
         ax.set_title("Температурный режим нагрева", fontsize=14)
         ax.legend(fontsize=10, loc='best')
         ax.grid(True, linestyle="--", alpha=0.5)
+        
+        print(twG)
 
         # Настройки осей с проверкой данных
-        ax.set_xticks(np.arange(0, time_H + 1, 10))
+        ax.set_xticks(np.arange(0, time_H + 1, 20))
         ax.set_yticks(np.arange(0, max(1500, int(max(twG.max(), twnG.max(), 
                                                     tmvG.max(), tmcG.max(), 
                                                     tmnG.max())) + 100), 100))

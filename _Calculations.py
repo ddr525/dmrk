@@ -1,5 +1,7 @@
 import math
 
+from utilities import toFixed
+
 
 def lambda_(g): # Коэффициент теплопроводности металла,Вт/(м*К)
     g = g-273
@@ -168,6 +170,28 @@ def cd(g, h2o, co2, n2, o2):
     # Средняя теплоёмкость дымовых газов, Дж/(м^3*К)
     cd_value = (dh2o * h2o + dco2 * co2 + dn2 * n2 + do2 * o2) / 100 * 1000
     return cd_value
+
+def FuelСonsumptionCalculation(gases, consumption, performance, result, params):
+    gas_data = []
+    for gas in gases:
+        mixed_percentage = float(params[gas.name].get())
+        m3h = float(consumption) * float(mixed_percentage)
+        gas_data.append((f"Расход топлива в ч\n{gas.name}, м³/ч", toFixed(m3h, 1)))
+        m3t = float(performance) / float(toFixed(m3h, 1))
+        gas_data.append((f"Расход топлива в т\n{gas.name}, м³/т", toFixed(m3t, 1)))
+
+        for item in result:
+            key, value = item[:2]
+            if gas.name == "Доменный газ" and key == "Низшая рабочая теплота\nсгорания - Доменный газ,\nккал/м³ (при 20°C)": 
+                bof_prm3t = (float(m3t) / 1000)  * float(value)
+                gas_data.append((f"Расход топлива в пр.т\n{gas.name}, пр.м3/т", toFixed(bof_prm3t, 1)))
+            
+            if gas.name == "Коксовый газ" and key == "Низшая рабочая теплота\nсгорания - Коксовый газ,\nккал/м³ (при 20°C)": 
+                coke_prm3t = (float(m3t) / 4000) * float(value)
+                gas_data.append((f"Расход топлива в пр.т\n{gas.name}, пр.м3/т", toFixed(coke_prm3t, 1)))
+
+    return gas_data
+        
 
 def FuilBurnCalculation(gases, Npir, tv, tg, l, params):
     # Список газов для подсчета
