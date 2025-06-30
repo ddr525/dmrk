@@ -171,13 +171,19 @@ def cd(g, h2o, co2, n2, o2):
     cd_value = (dh2o * h2o + dco2 * co2 + dn2 * n2 + do2 * o2) / 100 * 1000
     return cd_value
 
-def FuelСonsumptionCalculation(gases, consumption, performance, result, params):
-    gas_data = []
+def FuelСonsumptionCalculation(gases, heating_data, consumption, performance, result, params):
+    gas_data = [] 
+    zonesum = 0.0
+    zonedata = heating_data["Расчет нагрева металла"]["Расход топлива по зонам:"]
+    zonelist = ["в первой сварочной зоне", "в зоне нижнего подогрева 2", "во второй сварочной зоне", "в зоне нижнего подогрева 4", "в томильной зоне"]
+    for i, row in enumerate(zonelist):
+        zonesum += float(zonedata[f"{row}, тыс. м³/час"])
+
     for gas in gases:
         mixed_percentage = float(params[gas.name].get())
-        m3h = float(consumption) * float(mixed_percentage)
+        m3h = float(zonesum) * float(mixed_percentage / 100)
         gas_data.append((f"Расход топлива в ч\n{gas.name}, м³/ч", toFixed(m3h, 1)))
-        m3t = float(performance) / float(toFixed(m3h, 1))
+        m3t =  float(toFixed(m3h, 1)) /float(performance) * 1000
         gas_data.append((f"Расход топлива в т\n{gas.name}, м³/т", toFixed(m3t, 1)))
 
         for item in result:
@@ -209,12 +215,71 @@ def FuilBurnCalculation(gases, Npir, tv, tg, l, params):
 
     # Теплота сгорания
     Qt = {}
-    
+    # aa = [[0.0 for _ in range(2)] for _ in range(11)]  # 12 строк по 3 столбца
+    # bb = [[0.0 for _ in range(2)] for _ in range(11)]  # 12 строк по 3 столбца
+    # aa[0][0]=98.2         
+    # aa[0][1]=0.6
+    # aa[1][0]=0.8          
+    # aa[1][1]=0          
+    # aa[2][0]=0            
+    # aa[2][1]=0        
+    # aa[3][0]=1.0          
+    # aa[3][1]=0         
+    # aa[4][0]=0            
+    # aa[4][1]=0          
+    # aa[5][0]=0            
+    # aa[5][1]=26         
+    # aa[6][0]=0            
+    # aa[6][1]=4.2        
+    # aa[7][0]=0            
+    # aa[7][1]=12.2       
+    # aa[8][0]=0.0          
+    # aa[8][1]=57.0     
+    # aa[9][0]=0           
+    # aa[9][1]=0        
+    # d1=10                
+    # d2=60             
+    # aa[10][0]=100*d1/(805+d1)                 
+    # aa[10][1]=100*d2/(805+d2)                  
+
+    # for m in range(0, 10):  # от 1 до 11 включительно
+    #     aa[m][0]=aa[m][0]*(1-0.01*aa[10][0])
+    #     aa[m][1]=aa[m][1]*(1-0.01*aa[10][1])
+    # x=10
+    # y=100-x
+    # for m in range(0, 11):  # от 1 до 11 включительно
+    #     bb[m] = (aa[m][0] * x + aa[m][1] * y) / 100
+    # vo2=0.01*(2*bb[1]+3.5*bb[2]+5*bb[3]+6.5*bb[4]+
+    #          8*bb[5]+0.5*bb[6]+0.5*bb[7]-bb[10])
+    # l0=vo2/0.21
+    # ld=l0*1.05
+    # # Удельный выход дыма
+    # vco2 = 0.01 * (bb[6] + bb[0] + 2 * bb[1] + 2 * bb[2] + 3 * bb[3] + 4 * bb[4] +
+    #                5 * bb[5] + 2 * bb[8])
+    # vh2o = 0.01 * (bb[7] + 2 * bb[0] + 2 * bb[1] + 4 * bb[3] + 5 * bb[4] + 6 * bb[5] + bb[10])
+    # vn2 = 0.01 * bb[9] + 0.79 * ld
+    # vo2i = 0.01 * bb[10] + 0.0105 * l0
+    # v = vco2 + vh2o + vn2 + vo2i
+
+    # v *= 0.01
+
+    # # Состав дыма
+    # co2 = vco2 / v
+    # n2 = vn2 / v
+    # h2o = vh2o / v
+    # o2 = vo2i / v
+    # print("Газы")
+    # print(co2)
+    # print(n2)
+    # print(h2o)
+    # print(o2)
+    # print("-----")
 
     # Проход газам из базы данных
     for gas in gases:
         # Доля газов с UI
         mixed_percentage = float(params[gas.name].get())
+        print(mixed_percentage)
         
         res = []
         price = 0
@@ -260,6 +325,7 @@ def FuilBurnCalculation(gases, Npir, tv, tg, l, params):
 
         prices[gas.name] = price * gas.mixed_percentage / 100
 
+    print(mixed_gas)
 
     # Удельная теплоёмкость
     Cv = (0.21 * (6.5929e-8 * tv**2 + 1.137e-4 * tv + 1.2699) +
@@ -280,14 +346,13 @@ def FuilBurnCalculation(gases, Npir, tv, tg, l, params):
 
     # Цена смешанного газа
     Ts = mixed_price / 100
-
+    # 5_933_330.752825198 / 1000 / 4.19
     # Состав смешанного газа
     bb = [mixed_gas[m] / 100 for m in range(12)]
 
     # Низшая рабочая теплота сгорания смеси
     Q = (358 * bb[0] + 590 * bb[1] + 636 * bb[2] + 913 * bb[3] + 1185 * bb[4] +
          1465 * bb[5] + 127.7 * bb[6] + 108 * bb[7]) * 1000
-
     # Плотность газа
     Rog = (0.717 * bb[0] + 1.261 * bb[1] + 1.357 * bb[2] + 2.019 * bb[3] + 2.672 * bb[4] +
            3.219 * bb[5] + 1.251 * bb[6] + 0.090 * bb[7] + 1.977 * bb[8] +

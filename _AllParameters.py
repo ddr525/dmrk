@@ -2,13 +2,14 @@ import customtkinter
 
 from CTkMessagebox import CTkMessagebox 
 
+from ExperimentWindow import *
 from _Calculations import MetallBurnCalculation, FuelСonsumptionCalculation
 from utilities import toFixed
 
 class AllParameters(customtkinter.CTkFrame):
     def __init__(self, master, database, **kwargs):
         super().__init__(master, **kwargs)
-        
+        self.toplevel = None
         self.master = master
 
         self.font=customtkinter.CTkFont(size=13, weight="bold")
@@ -177,15 +178,15 @@ class AllParameters(customtkinter.CTkFrame):
         exp_id_frame.grid(row=0, column=0, padx=[10,0], pady=pady_block, sticky="nsew")
         exp_id_frame.grid_propagate(False)
         exp_id_frame.grid_columnconfigure(0, weight=1)
-        exp_id_label = customtkinter.CTkLabel(exp_id_frame, text=f"№ опыта: 1", height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
+        exp_id_label = customtkinter.CTkButton(exp_id_frame, text=f"№ опыта: 1", height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", command=self._open_exp_view)
         exp_id_label.grid(row=0, column=0, pady=2, padx=5)
 
         exp_description_frame = customtkinter.CTkFrame(exp_block, width=80, height=28, border_color="black", border_width=2, fg_color=fg_color_block, corner_radius=0)
         exp_description_frame.grid(row=0, column=1, padx=[0,10], pady=pady_block, sticky="nsew")
         exp_description_frame.grid_propagate(False)
         exp_description_frame.grid_columnconfigure(0, weight=1)
-        exp_description_label = customtkinter.CTkLabel(exp_description_frame, text="", width=45, height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
-        exp_description_label.grid(row=0, column=0, pady=2, padx=[0,5])
+        self.exp_description_label = customtkinter.CTkLabel(exp_description_frame, text="", width=45, height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
+        self.exp_description_label.grid(row=0, column=0, pady=2, padx=[0,5])
         #-------------------------------------------------------
 
         #------------------Кнопка "Настройки по умолчанию"-------------------------
@@ -287,13 +288,14 @@ class AllParameters(customtkinter.CTkFrame):
         heating_data["Расчет нагрева металла"]["Марка стали"] = str(self.database.get_parameters("Марка стали (группа нагрева)").value_str) 
         fuel_consumption = FuelСonsumptionCalculation(
             gases, 
+            heating_data,
             heating_data["Расчет нагрева металла"]["Расход топлива на печь, тыс. м³/час"],
             heating_data["Расчет нагрева металла"]["Производительность печи, т/час"],
             result,
             self.params
             )
         result.extend(fuel_consumption) 
-        self.database.save_fuilburn_results(fuel_consumption) ## uncomment in prod
+        self.database.save_fuilburn_results(fuel_consumption) ## uncomment in prod 
         self.master.update_all(heating_data, result) 
 
 
@@ -306,8 +308,8 @@ class AllParameters(customtkinter.CTkFrame):
             ("Действительный расход воздуха, м³/м³", toFixed(data[7], 3)),
             ("Удельный выход дыма, м³/м³", toFixed(data[8], 3)),
             ("Теплоёмкость дыма, кДж/(м³·К)", toFixed(data[9], 3)),
-            ("Калориметрическая температура, °C", toFixed(data[10], 3)),
-            ("Действительная температура, °C", toFixed(data[11], 3)),
+            ("Калориметрическая температура горения, °C", toFixed(data[10], 3)),
+            ("Действительная температура горения, °C", toFixed(data[11], 3)),
         ]
 
         # Вставка значений сгорания газов
@@ -321,3 +323,21 @@ class AllParameters(customtkinter.CTkFrame):
         for row, (key, value) in enumerate(data[0].items()):
             res.insert(0 + row, (f"{key}, %", toFixed(value, 1))) 
         return res, data[12]
+    
+    def _open_exp_view(self):
+        if(self.toplevel is None or not self.toplevel.winfo_exists()):
+            self.toplevel = ExperimentWindow(database=self.database, page=self)
+            self.toplevel.after(10, self.toplevel.lift)
+        else:
+            self.toplevel.focus()
+
+    
+    def update(self):
+        self.exp_num = str(self.database.get_experiment_number())
+        self.exp_description_label.configure(text="Номер опыта — " + self.exp_num)
+
+    def open_exp(self, id):
+        self.exp_num = str(id)
+        self.exp_description_label.configure(text="Номер опыта — " + self.exp_num)
+
+        self.master.open_exp(id)

@@ -64,7 +64,7 @@ class App(customtkinter.CTk):
     
     def open_exp(self, id):
         self.tabview.open_exp(id)
-        self.sidebar_frame.open_exp(id)
+        # self.sidebar_frame.open_exp(id)
 
     def set_exp_number(self, id):
         self.sidebar_frame.open_exp(id)

@@ -12,6 +12,7 @@ class DataSideBar(customtkinter.CTkFrame):
         super().__init__(master, **kwargs)
         
         self.master = master
+        self.toplevel = None
         self.database = database
         self.configure(fg_color="transparent") 
         self.grid_columnconfigure(0, weight=1) 
@@ -36,13 +37,17 @@ class DataSideBar(customtkinter.CTkFrame):
         # else:
         #     print("update_all method not found on plistb or master.")
 
-    def update(self):
-        self.exp_num = str(self.database.get_experiment_number())
-        self.scaling_label.configure(text="Номер опыта — " + self.exp_num)
+    # def update(self):
+    #     self.exp_num = str(self.database.get_experiment_number())
+    #     self.scaling_label.configure(text="Номер опыта — " + self.exp_num)
 
     def open_exp(self, id):
-        self.exp_num = str(id)
-        self.scaling_label.configure(text="Номер опыта — " + self.exp_num)
+        parent = self.master
+        while parent is not None:
+            if hasattr(parent, "update_all"):
+                parent.open_exp(id)
+                break
+            parent = getattr(parent, "master", None)
     
     def start_export(self):
         heating_data = self.master.get_heating_data()
@@ -75,12 +80,12 @@ class DataSideBar(customtkinter.CTkFrame):
     #     else:
     #         self.toplevel.focus()
 
-    def _open_exp_view(self):
-        if(self.toplevel is None or not self.toplevel.winfo_exists()):
-            self.toplevel = ExperimentWindow(database=self.database, page=self.master)
-            self.toplevel.after(10, self.toplevel.lift)
-        else:
-            self.toplevel.focus()
+    # def _open_exp_view(self):
+    #     if(self.toplevel is None or not self.toplevel.winfo_exists()):
+    #         self.toplevel = ExperimentWindow(database=self.database, page=self.master)
+    #         self.toplevel.after(10, self.toplevel.lift)
+    #     else:
+    #         self.toplevel.focus()
 
     def _open_furnace_view(self):
         if(self.furnacetoplevel is None or not self.furnacetoplevel.winfo_exists()):

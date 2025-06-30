@@ -874,159 +874,144 @@ class FluidBurnPage(ctk.CTkScrollableFrame):
         return self.heating_data
     
     def update(self, data):
-        self._clear()
-        self.data = data
-
-        # self.label = ctk.CTkLabel(
-        #     self, text="Расчет горения топлива", font=ctk.CTkFont(size=18, weight="bold"), text_color='white'
-        # )
-        # self.label.grid(row=0, column=0, columnspan=2, padx=20, pady=(10, 0))
+        pass
+        # self._clear()
+        # self.data = data 
         
-        row = 0
-        column = 0
-        index = 0
-        size = self.small_row_size
+        # row = 0
+        # column = 0
+        # index = 0
+        # size = self.small_row_size
 
-        self.row_frames = []
+        # self.row_frames = []
 
-        self.card_bg_color = 'white'
-        self.text_color = 'black'
+        # self.card_bg_color = 'white'
+        # self.text_color = 'black'
 
-        frame = ctk.CTkFrame(self, fg_color='transparent')
-        frame.grid(row=0, column=0, columnspan=2, padx=0, pady=(20, 0))
+        # frame = ctk.CTkFrame(self, fg_color='transparent')
+        # frame.grid(row=0, column=0, columnspan=2, padx=0, pady=(20, 0))
 
-        frame_l = ctk.CTkFrame(frame, fg_color='transparent')
-        frame_l.grid(row=0, column=0, padx=(20, 0), pady=(20, 0))
+        # frame_l = ctk.CTkFrame(frame, fg_color='transparent')
+        # frame_l.grid(row=0, column=0, padx=(20, 0), pady=(20, 0))
 
-        frame_r = ctk.CTkFrame(frame, fg_color='transparent')
-        frame_r.grid(row=0, column=1, padx=(0, 20), pady=(0, 0))
+        # frame_r = ctk.CTkFrame(frame, fg_color='transparent')
+        # frame_r.grid(row=0, column=1, padx=(0, 20), pady=(0, 0))
 
-        self.row_frames.append(frame_r)
+        # self.row_frames.append(frame_r)
 
-            # Добавление карточек
-        for idx, (label, value) in enumerate(data):
-            tag = "tag-" + str(idx)
-            if('%' in label):
-                self.create_card_percent(frame=self.row_frames[index], row=row, column=column, title=label, value=value, tag=tag)
-            elif('cards' in label):
-                # Карточка для состава дыма
-                self.create_combined_card(title="Состав дыма",frame=frame_l,row=0, column=0, value=value, tag=tag)
-                continue
-            else:
-                self.create_card_value(frame=self.row_frames[index], row=row, column=column, title=label, value=value, tag=tag)
+        #     # Добавление карточек
+        # for idx, (label, value) in enumerate(data):
+        #     tag = "tag-" + str(idx)
+        #     if('%' in label):
+        #         self.create_card_percent(frame=self.row_frames[index], row=row, column=column, title=label, value=value, tag=tag)
+        #     elif('cards' in label):
+        #         # Карточка для состава дыма
+        #         self.create_combined_card(title="Состав дыма",frame=frame_l,row=0, column=0, value=value, tag=tag)
+        #         continue
+        #     else:
+        #         self.create_card_value(frame=self.row_frames[index], row=row, column=column, title=label, value=value, tag=tag)
             
-            column += 1
+        #     column += 1
             
-            if(column >= size):
-                column = 0
-                row += 1
-                if(row > 1 or index > 0):
-                    frame = ctk.CTkFrame(self, fg_color='transparent')
-                    frame.grid(row=row + 2, column=column, columnspan=2, padx=20, pady=0)
-                    frame.rowconfigure((0), weight=1)
-                    self.row_frames.append(frame)
+        #     if(column >= size):
+        #         column = 0
+        #         row += 1
+        #         if(row > 1 or index > 0):
+        #             frame = ctk.CTkFrame(self, fg_color='transparent')
+        #             frame.grid(row=row + 2, column=column, columnspan=2, padx=20, pady=0)
+        #             frame.rowconfigure((0), weight=1)
+        #             self.row_frames.append(frame)
                     
-                    index = len(self.row_frames) - 1
-                    size = self.large_row_size
-
-    def __change_cursor(self, cursor):
-        root = self.root
-        root.config(cursor=cursor)
-
-    def __frame_on_enter(self, *frame):
-        self.__change_cursor('hand2')
-    
-    def __frame_on_exit(self, *frame):
-        self.__change_cursor('arrow')
-
-    def __frame_on_click(self, frame, title, event):
-        toplevel = DatasetWindow(self, self.database, title)
-        toplevel.after(10, toplevel.lift)
+        #             index = len(self.row_frames) - 1
+        #             size = self.large_row_size 
         
 
     def create_card_percent(self, frame, row, column, title, value, tag):
-        """Создание одной карточки с круговой диаграммой."""
-        frame = ctk.CTkFrame(frame, corner_radius=10, fg_color=self.card_bg_color, width=self.card_size, height=self.card_size)
-        frame.grid(row=row, column=column, padx=10, pady=10, sticky="nsew")
-        frame.bindtags((tag,) + frame.bindtags())
+        pass
+        # """Создание одной карточки с круговой диаграммой."""
+        # frame = ctk.CTkFrame(frame, corner_radius=10, fg_color=self.card_bg_color, width=self.card_size, height=self.card_size)
+        # frame.grid(row=row, column=column, padx=10, pady=10, sticky="nsew")
+        # frame.bindtags((tag,) + frame.bindtags())
 
-        label = ctk.CTkLabel(frame, text=title, font=("Arial", 14, "bold"), text_color=self.text_color)
-        label.pack(padx=10, pady=(10,0))
-        label.bindtags((tag,) + label.bindtags())
+        # label = ctk.CTkLabel(frame, text=title, font=("Arial", 14, "bold"), text_color=self.text_color)
+        # label.pack(padx=10, pady=(10,0))
+        # label.bindtags((tag,) + label.bindtags())
 
-        # Построение круговой диаграммы
-        fig, ax = plt.subplots(figsize=(self.chart_size, self.chart_size))
-        fig.set_facecolor(self.card_bg_color)
-        ax.set_facecolor(self.card_bg_color)
-        ax.pie([value, 100 - float(value)], labels=["", ""], colors=["#4CAF50", "#E0E0E0"], startangle=90)
-        ax.text(0, 0, f"{value}%", ha="center", va="center", fontsize=12, color="black")
+        # # Построение круговой диаграммы
+        # fig, ax = plt.subplots(figsize=(self.chart_size, self.chart_size))
+        # fig.set_facecolor(self.card_bg_color)
+        # ax.set_facecolor(self.card_bg_color)
+        # ax.pie([value, 100 - float(value)], labels=["", ""], colors=["#4CAF50", "#E0E0E0"], startangle=90)
+        # ax.text(0, 0, f"{value}%", ha="center", va="center", fontsize=12, color="black")
 
-        self.figures.append(fig)
+        # self.figures.append(fig)
         
-        canvas = FigureCanvasTkAgg(fig, master=frame)
-        tk_w = canvas.get_tk_widget()
-        tk_w.bindtags((tag,) + tk_w.bindtags())
-        tk_w.pack(fill='both', pady=(0, 10))
-        canvas.draw()
+        # canvas = FigureCanvasTkAgg(fig, master=frame)
+        # tk_w = canvas.get_tk_widget()
+        # tk_w.bindtags((tag,) + tk_w.bindtags())
+        # tk_w.pack(fill='both', pady=(0, 10))
+        # canvas.draw()
 
-        frame.master.bind_class(tag, "<Enter>", partial(self.__frame_on_enter, frame))
-        frame.master.bind_class(tag, "<Leave>", partial(self.__frame_on_exit, frame))
-        frame.master.bind_class(tag, "<ButtonPress-1>", partial(self.__frame_on_click, frame, title))
-        label.bind("<Button-1>", partial(self.__frame_on_click, frame, title))
+        # frame.master.bind_class(tag, "<Enter>", partial(self.__frame_on_enter, frame))
+        # frame.master.bind_class(tag, "<Leave>", partial(self.__frame_on_exit, frame))
+        # frame.master.bind_class(tag, "<ButtonPress-1>", partial(self.__frame_on_click, frame, title))
+        # label.bind("<Button-1>", partial(self.__frame_on_click, frame, title))
 
 
     def create_card_value(self, frame, row, column, title, value, tag):
-        """Создание одной карточки с круговой диаграммой."""
-        frame = ctk.CTkFrame(frame, corner_radius=10, fg_color=self.card_bg_color, width=self.card_size, height=self.card_size)
-        frame.grid(row=row, column=column, padx=10, pady=10, sticky="snew")
-        frame.bindtags((tag,) + frame.bindtags())
+        pass
+        # """Создание одной карточки с круговой диаграммой."""
+        # frame = ctk.CTkFrame(frame, corner_radius=10, fg_color=self.card_bg_color, width=self.card_size, height=self.card_size)
+        # frame.grid(row=row, column=column, padx=10, pady=10, sticky="snew")
+        # frame.bindtags((tag,) + frame.bindtags())
 
-        label = ctk.CTkLabel(frame, text=title, font=("Arial", 14, "bold"), text_color=self.text_color)
-        label.pack(padx=10, pady=(10, 0))
-        label.bindtags((tag,) + label.bindtags())
+        # label = ctk.CTkLabel(frame, text=title, font=("Arial", 14, "bold"), text_color=self.text_color)
+        # label.pack(padx=10, pady=(10, 0))
+        # label.bindtags((tag,) + label.bindtags())
 
-        value_frame = ctk.CTkFrame(frame, fg_color='transparent')
-        value_frame.pack(padx=10, pady=40, expand=True)
-        value_frame.bindtags((tag,) + value_frame.bindtags())
+        # value_frame = ctk.CTkFrame(frame, fg_color='transparent')
+        # value_frame.pack(padx=10, pady=40, expand=True)
+        # value_frame.bindtags((tag,) + value_frame.bindtags())
 
-        value = ctk.CTkLabel(value_frame, text=value, font=("Arial", 24, "bold"), text_color=self.text_color)
-        value.pack()
-        value.bindtags((tag,) + value.bindtags())
+        # value = ctk.CTkLabel(value_frame, text=value, font=("Arial", 24, "bold"), text_color=self.text_color)
+        # value.pack()
+        # value.bindtags((tag,) + value.bindtags())
 
-        frame.master.bind_class(tag, "<Enter>", partial(self.__frame_on_enter, frame))
-        frame.master.bind_class(tag, "<Leave>", partial(self.__frame_on_exit, frame))
-        frame.master.bind_class(tag, "<ButtonPress-1>", partial(self.__frame_on_click, frame, title))
+        # frame.master.bind_class(tag, "<Enter>", partial(self.__frame_on_enter, frame))
+        # frame.master.bind_class(tag, "<Leave>", partial(self.__frame_on_exit, frame))
+        # frame.master.bind_class(tag, "<ButtonPress-1>", partial(self.__frame_on_click, frame, title))
 
         # frame.bind("<Enter>", partial(self.__frame_on_enter, frame))
         # frame.bind("<Leave>", partial(self.__frame_on_exit, frame))
-        frame.bind("<Button-1>", partial(self.__frame_on_click, frame, title))
-        label.bind("<Button-1>", partial(self.__frame_on_click, frame, title))
-        value.bind("<Button-1>", partial(self.__frame_on_click, frame, title))
+        # frame.bind("<Button-1>", partial(self.__frame_on_click, frame, title))
+        # label.bind("<Button-1>", partial(self.__frame_on_click, frame, title))
+        # value.bind("<Button-1>", partial(self.__frame_on_click, frame, title))
 
     def create_combined_card(self, title, frame, row, column, value, tag):
-        """Создание карточки для состава дыма с несколькими диаграммами."""
-        frame = ctk.CTkFrame(frame, corner_radius=10, fg_color=self.card_bg_color, width=self.card_size, height=self.card_size)
-        frame.grid(row=row, column=column, padx=10, pady=10, sticky="nsew")
-        frame.bindtags((tag,) + frame.bindtags())
+        pass
+        # """Создание карточки для состава дыма с несколькими диаграммами."""
+        # frame = ctk.CTkFrame(frame, corner_radius=10, fg_color=self.card_bg_color, width=self.card_size, height=self.card_size)
+        # frame.grid(row=row, column=column, padx=10, pady=10, sticky="nsew")
+        # frame.bindtags((tag,) + frame.bindtags())
 
-        fig, ax = plt.subplots(figsize=(self.chart_size + 1, self.chart_size + 2))
-        fig.set_facecolor(self.card_bg_color)
-        ax.set_facecolor(self.card_bg_color)
-        ax.bar(value.keys(), value.values(), color=["#4CAF50", "#2196F3", "#FFC107", "#F44336"])
-        ax.set_ylabel("%")
-        ax.set_title(title)
+        # fig, ax = plt.subplots(figsize=(self.chart_size + 1, self.chart_size + 2))
+        # fig.set_facecolor(self.card_bg_color)
+        # ax.set_facecolor(self.card_bg_color)
+        # ax.bar(value.keys(), value.values(), color=["#4CAF50", "#2196F3", "#FFC107", "#F44336"])
+        # ax.set_ylabel("%")
+        # ax.set_title(title)
 
-        self.figures.append(fig)
+        # self.figures.append(fig)
 
-        canvas = FigureCanvasTkAgg(fig, master=frame)
-        tk_w = canvas.get_tk_widget()
-        tk_w.bindtags((tag,) + tk_w.bindtags())
-        tk_w.pack(fill='both', pady=10)
-        canvas.draw()
+        # canvas = FigureCanvasTkAgg(fig, master=frame)
+        # tk_w = canvas.get_tk_widget()
+        # tk_w.bindtags((tag,) + tk_w.bindtags())
+        # tk_w.pack(fill='both', pady=10)
+        # canvas.draw()
 
-        frame.master.bind_class(tag, "<Enter>", partial(self.__frame_on_enter, frame))
-        frame.master.bind_class(tag, "<Leave>", partial(self.__frame_on_exit, frame))
-        frame.master.bind_class(tag, "<ButtonPress-1>", partial(self.__frame_on_click, frame, value))
+        # frame.master.bind_class(tag, "<Enter>", partial(self.__frame_on_enter, frame))
+        # frame.master.bind_class(tag, "<Leave>", partial(self.__frame_on_exit, frame))
+        # frame.master.bind_class(tag, "<ButtonPress-1>", partial(self.__frame_on_click, frame, value))
 
     def show_result(self, data):
         res = [

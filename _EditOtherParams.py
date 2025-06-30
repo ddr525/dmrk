@@ -34,8 +34,8 @@ class EditOtherParams(ctk.CTkToplevel):
             },
             "Температурные параметры": {
                 "Температура окружающей среды (toc), °C": toFixed(database.get_parameters("Температура окружающей среды (toc)").value, 3),
-                "Температура насыщения (tnas), °C": toFixed(database.get_parameters("Температура насыщения (tnas)").value, 3),
-                "Разница температур при посаде (twDif), °C": toFixed(database.get_parameters("Разница температур при посаде (twDif)").value, 3),
+                "Температура насыщения - пара (tnas), °C": toFixed(database.get_parameters("Температура насыщения (tnas)").value, 3),
+                # "Разница температур при посаде (twDif), °C": toFixed(database.get_parameters("Разница температур при посаде (twDif)").value, 3),
                 "Температура методической зоны (twMetn), °C": toFixed(database.get_parameters("Температура методической зоны (twMetn)").value, 3),
                 "Допустимый перепад (dtdop), °C": toFixed(database.get_parameters("Допустимый перепад (dtdop)").value, 3),
             },
