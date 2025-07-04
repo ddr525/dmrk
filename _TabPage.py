@@ -63,10 +63,7 @@ class TabPage(ctk.CTkTabview):
         self.cards.start_up()
         self.table.update()
 
-    def open_exp(self, id):
-        exp = self.database.get_experiment_by_id(id)
-    
-        heating_data, gas_data = self.show_exp(exp)
+    def open_exp(self, heating_data, gas_data):    
         print("-----heating_data-----")
         print(heating_data)
         print("-----gas-----")
@@ -87,111 +84,4 @@ class TabPage(ctk.CTkTabview):
         self.cards.set_heating_data(heating_data)
     
     def get_heating_data(self):
-        return self.cards.get_heating_data()
-    
-
-
-
-    def show_exp(self, exp):
-        res = exp.results
-
-        heating_data = self.parse_heating_data(exp)
-
-        data = []
-
-        cards = {}
-
-        for el in res:
-            if("CO2" in el.parameter or "N2" in el.parameter or "H2O" in el.parameter or "O2" in el.parameter):
-                cards[el.parameter] = el.value
-            else:
-                if("%" in el.parameter or "тг" in el.parameter):
-                    data.append((el.parameter, toFixed(el.value, 1)))
-                else:
-                    data.append((el.parameter, toFixed(el.value, 3)))
-            
-        data.append(("cards", cards))
-
-        # self.update(data)
-        return heating_data, data
-
-    def parse_heating_data(self, exp):
-
-        heating_data = {
-            "Расчет нагрева металла": {},
-            "Тепловой баланс" : {},
-            "График": {},
-            "data": {},
-            "t_data": {}
-        }
-        
- 
-        # metal heating
-        for zone in exp.metal_results[0].zones:
-            #print(zone.name)
-            heating_data["Расчет нагрева металла"][zone.name] = {}
-
-            for param in zone.parameters:
-                heating_data["Расчет нагрева металла"][zone.name][param.name + "," + param.units] = param.value
-
-        for param in exp.metal_results[0].parameters:
-            #print(param.name)
-            heating_data["Расчет нагрева металла"][param.name + "," + param.units] = param.value
-
-        for zone in exp.balance_results[0].zones:
-            #print(zone.name)
-            heating_data["Тепловой баланс"][zone.name] = {}
-
-            for heat_flow in zone.heat_flows:
-                #print(heat_flow.type)
-                heating_data["Тепловой баланс"][zone.name][heat_flow.type] = {}
-
-                for detail in heat_flow.details:
-                    #print(detail.name)
-                    heating_data["Тепловой баланс"][zone.name][heat_flow.type][detail.name + "," + detail.units] = detail.value
-            
-            for param in zone.params:
-                #print(param.name)
-                heating_data["Тепловой баланс"][zone.name][param.name + "," + param.units] = param.value
-
-        for param in exp.heat_graphs[0].params:
-            #print(param.name)
-            heating_data["График"][param.name] = param.value
-
-        for dot in exp.heat_graphs[0].dots:
-            #print(dot.name)
-            heating_data["График"][dot.name] = [data.value for data in dot.data]
-        # e = exp.history_parameters
-
-        tmn = 0.0
-        twMetn = 0.0
-        twDif = 0.0
-
-        for param in exp.history_parameters:
-            if(param.parameter_name == "Время нагрева (time_H)" or param.parameter_name == "Время в методической зоне" or param.parameter_name == "Время в первой сварочной зоне" or param.parameter_name == "Время во второй сварочной зоне" or param.parameter_name == "Время в томильной зоне"):
-                heating_data["data"][param.parameter_name] = param.value
-
-            if(param.parameter_name == "Начальная температура металла (tmn)"):
-                tmn = param.value
-            elif(param.parameter_name == "Температура методической зоны (twMetn)"):
-                twMetn = param.value
-            elif(param.parameter_name == "Разница температур при посаде (twDif)"):
-                twDif = param.value
-
-
-        s = self.database.get_parameters("Толщина сляба (s)").value
-        bb = self.database.get_parameters("Длина сляба (bb)").value
-        a = self.database.get_parameters("Ширина сляба (a)").value
-        Lp = self.database.get_parameters("Длина печи (Lp)").value
-
-        heating_data["t_data"]["Температура сляба при посаде"] = tmn
-        heating_data["t_data"]["Температура верха печи при посаде"] = twMetn
-        heating_data["t_data"]["Температура низа печи при посаде"] = twMetn - twDif
-        heating_data["Расчет нагрева металла"]["Толщина сляба"] = s
-        heating_data["Расчет нагрева металла"]["Длина сляба"] = bb
-        heating_data["Расчет нагрева металла"]["Ширина сляба"] = a
-        heating_data["Расчет нагрева металла"]["Длина печи"] = Lp
-        heating_data["Расчет нагрева металла"]["Марка стали"] = str(self.database.get_parameters("Марка стали (группа нагрева)").value_str) 
-        
-        return heating_data 
-    
+        return self.cards.get_heating_data() 

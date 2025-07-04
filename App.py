@@ -62,8 +62,8 @@ class App(customtkinter.CTk):
     def get_heating_data(self):
         return self.tabview.get_heating_data()
     
-    def open_exp(self, id):
-        self.tabview.open_exp(id)
+    def open_exp(self, heating_data, gas_data):
+        self.tabview.open_exp(heating_data, gas_data)
         # self.sidebar_frame.open_exp(id)
 
     def set_exp_number(self, id):

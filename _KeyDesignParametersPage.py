@@ -369,17 +369,17 @@ class KeyDesignParameters(ctk.CTkFrame):
 
         for row, value in enumerate(self.list):
             self.newcell(fourthtable, row=row+1, column=0, text=value.name)
-            self.newcell(fourthtable, row=row+1, column=1, text=gas_dict.get(f"Расход топлива в ч\n{value.name}, м³/ч", '-'))
-            self.newcell(fourthtable, row=row+1, column=2, text=gas_dict.get(f"Расход топлива в т\n{value.name}, м³/т", '-'))
-            self.newcell(fourthtable, row=row+1, column=3, text=gas_dict.get(f"Расход топлива в пр.т\n{value.name}, пр.м3/т", '-'))
-            self.newcell(fourthtable, row=row+1, column=4, text="-")
+            self.newcell(fourthtable, row=row+1, column=1, text=self.safe_to_fixed(gas_dict.get(f"Расход топлива в ч\n{value.name}, м³/ч", '-')))
+            self.newcell(fourthtable, row=row+1, column=2, text=self.safe_to_fixed(gas_dict.get(f"Расход топлива в т\n{value.name}, м³/т", '-')))
+            self.newcell(fourthtable, row=row+1, column=3, text=self.safe_to_fixed(gas_dict.get(f"Расход топлива в пр.т\n{value.name}, пр.м3/т", '-')))
+            self.newcell(fourthtable, row=row+1, column=4, text="-", padx=(0,1))
             
             
         lasttable=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
         lasttable.grid(row=6, column=0, padx=(1,0), pady=20)
  
         block=ctk.CTkFrame(lasttable, fg_color="#494949", corner_radius=0)
-        block.grid( row=0, column=0, padx=(1,0), pady=1, sticky="ew") 
+        block.grid( row=0, column=0, padx=(1,1), pady=1, sticky="ew") 
         block.grid_rowconfigure(0, weight=1)
         block.grid_columnconfigure(0, weight=1)
         cell = ctk.CTkLabel(block, text="Расход топлива по зонам", fg_color="#494949", corner_radius=0, font=self.font)
@@ -410,9 +410,9 @@ class KeyDesignParameters(ctk.CTkFrame):
             self.newcell(lasttable, row=i+1, column=1, text=toFixed(float(zonedata[f"{row}, тыс. м³/час"]), 2))
             self.newcell(lasttable, row=i+1, column=2, text=zonedata[f"{row}, %"], padx=(1,2))
             
-        self.newcell(lasttable, row=6, column=0, text="Расход топлива на печь", padx=(1,2))
-        self.newcell(lasttable, row=6, column=1, text=toFixed(float(zonesum), 2))
-        self.newcell(lasttable, row=6, column=2, text="100")
+        self.newcell(lasttable, row=6, column=0, text="Расход топлива на печь", padx=(1,0), pady=(0,1))
+        self.newcell(lasttable, row=6, column=1, text=toFixed(float(zonesum), 2), pady=(0,1))
+        self.newcell(lasttable, row=6, column=2, text="100", padx=(1,2), pady=(1,1))
 
         lastrow=ctk.CTkFrame(secondblock, fg_color="black", border_color="black", border_width=1, corner_radius=0)
         lastrow.grid(row=7, column=0, padx=1, pady=20)
@@ -466,3 +466,10 @@ class KeyDesignParameters(ctk.CTkFrame):
     def time_percent(self, all_time, current_time):
         return round(float((current_time / all_time) * 100), 2)
     
+    def safe_to_fixed(self, value, digits=1, default='-'):
+        try:
+            if value in (None, '-', ''):
+                return default
+            return f"{float(value):.{digits}f}"
+        except (ValueError, TypeError):
+            return default

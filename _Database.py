@@ -137,7 +137,9 @@ class Database():
 
         self.session.commit()
 
-    def save_gas_results(self, title, results):
+    def save_gas_results(self, title, results
+                         , gas_percents, temps
+                         ):
         gases = self.session.query(Gas).all()
 
         params = self.session.query(GlobalParameter).all()
@@ -158,7 +160,8 @@ class Database():
 
             hist_gas = HistoryGas(
                 name = gas.name,
-                mixed_percentage = gas.mixed_percentage,
+                # mixed_percentage = gas.mixed_percentage,
+                mixed_percentage = float(gas_percents[gas.name].get()),
                 components = hist_components
             )
 
@@ -185,6 +188,32 @@ class Database():
                     value_str = param.value_str 
                 )
                 history_params.append(hist_param)
+
+        for label, value in temps:
+            try:
+                float_param = float(value)
+                hist_param = HistoryGlobalParameter(
+                    parameter_name = label,
+                    value = float_param,
+                    units = param.units,
+                    value_str = ''
+                )  
+            except: 
+                hist_param = HistoryGlobalParameter(
+                    parameter_name = label,
+                    value = 0.0,
+                    units = param.units,
+                    value_str = param.value_str 
+                )
+            
+            # === ЗАМЕНА или ДОБАВЛЕНИЕ ===
+            for i, existing in enumerate(history_params):
+                if existing.parameter_name == label:
+                    history_params[i] = hist_param
+                    break
+            else:
+                history_params.append(hist_param)
+                 
 
         # Сохранение результатов
         exp_res = []
@@ -335,36 +364,40 @@ class Database():
     def get_exp_result(self, name):
         return self.session.query(ExperimentResult).filter(ExperimentResult.parameter == name).all()
     
+    def is_number(self, val: str) -> bool:
+        try:
+            float(val.replace(',', '.'))  # если вдруг десятичная запятая
+            return True
+        except:
+            return False
+        
     def update_furnace_params(self, data):
         for key, value in data.items():
             split = key.split(',')
-
-            param = self.get_parameters(split[0])
-
-            if param is not None:
-                param.value = value
-            else: 
-                try:
-                    float_value = float(value)
-                    self.session.add(
-                        GlobalParameter(
-                            parameter=split[0],
-                            units=(split[1].strip() if len(split) > 1 else ''),
-                            value_str='',     # строка
-                            value=float_value # обнуляем числовое значение
-                        )
-                    )
-                except:
-                    self.session.add(
-                        GlobalParameter(
-                            parameter=split[0],
-                            units=(split[1].strip() if len(split) > 1 else ''),
-                            value=0.0,        # число
-                            value_str=value   # обнуляем строковое значение
-                        )
-                    )
+            param = self.get_parameters(split[0]) 
+            if isinstance(value, (int, float)) or self.is_number(str(value)):
+                float_value = float(str(value).replace(',', '.'))
+                value_str = ''
+            else:
+                float_value = 0.0
+                value_str = str(value)
+ 
+            if param is not None: 
+                units = split[1].strip() if len(split) > 1 else ''
+                # Обновить существующий параметр
+                param.value = float_value
+                param.value_str = value_str
+                param.units = units  # если нужно обновить единицы тоже
+            else:
+                # Добавить новый параметр
+                new_param = GlobalParameter(
+                    parameter=split[0],
+                    units=units,
+                    value=float_value,
+                    value_str=value_str
+                )
+                self.session.add(new_param)
         self.session.commit()
-
     def get_overral_heating_data(self):
         return self.session.query(OverallHeatingData).order_by(OverallHeatingData.id.desc()).all()
     
@@ -593,7 +626,7 @@ class Database():
             "Суммарная длина труб СИО во второй зоне (LsioSv2), м" : LsioSv2,
             "Суммарная длина труб СИО в томильной зоне (LsioTom), м" : LsioTom,
             "Сохранность футеровки СИО, %": 50,
-            "Марка стали (группа нагрева)": "DX51D (1)"
+            "Марка стали (группа нагрева)": "08, 10, 3кп (1)"
         }	 
 
 

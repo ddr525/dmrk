@@ -31,21 +31,12 @@ class DataSideBar(customtkinter.CTkFrame):
                 parent.update_all(heating_data, gas_result)
                 break
             parent = getattr(parent, "master", None)
-        # Call update_all on the correct object; replace 'self.master' with the appropriate reference if needed
-        # if hasattr(self.plistb, "update_all"):
-        #     self.plistb.update_all()
-        # else:
-        #     print("update_all method not found on plistb or master.")
 
-    # def update(self):
-    #     self.exp_num = str(self.database.get_experiment_number())
-    #     self.scaling_label.configure(text="Номер опыта — " + self.exp_num)
-
-    def open_exp(self, id):
+    def open_exp(self, heating_data, gas_data):
         parent = self.master
         while parent is not None:
             if hasattr(parent, "update_all"):
-                parent.open_exp(id)
+                parent.open_exp(heating_data, gas_data)
                 break
             parent = getattr(parent, "master", None)
     
@@ -72,20 +63,6 @@ class DataSideBar(customtkinter.CTkFrame):
 
     def set_burn_page(self, page):
         self.page = page
-
-    # def _open_table_view(self):
-    #     if(self.toplevel is None or not self.toplevel.winfo_exists()):
-    #         self.toplevel = TableViewWindow(self, page=self.page)
-    #         self.toplevel.after(10, self.toplevel.lift)
-    #     else:
-    #         self.toplevel.focus()
-
-    # def _open_exp_view(self):
-    #     if(self.toplevel is None or not self.toplevel.winfo_exists()):
-    #         self.toplevel = ExperimentWindow(database=self.database, page=self.master)
-    #         self.toplevel.after(10, self.toplevel.lift)
-    #     else:
-    #         self.toplevel.focus()
 
     def _open_furnace_view(self):
         if(self.furnacetoplevel is None or not self.furnacetoplevel.winfo_exists()):

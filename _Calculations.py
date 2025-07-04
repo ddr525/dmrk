@@ -2,21 +2,54 @@ import math
 
 from utilities import toFixed
 
+mark = ""
+
+def find_point(value, mark_brakepoints):
+    for i, start in enumerate(range(0, 1400, 100)):
+        end = start + 100
+        if start <= value < end and mark == "08, 10, 3кп (1)":
+            return mark_brakepoints["first_mark"][i]
+        if start <= value < end and mark == "15, 25, 35 (2)":
+            return mark_brakepoints["second_mark"][i]
+        if start <= value < end and mark == "45, 17Г1С4 (3)":
+            return mark_brakepoints["third_mark"][i]
+    return None  # если не попал ни в один диапазон
 
 def lambda_(g): # Коэффициент теплопроводности металла,Вт/(м*К)
     g = g-273
-    return -8e-7*g*g-1.477e-2*g+46.585
+    mark_brakepoints = {
+        "first_mark": [ 61,56,51,46,40,36,33,30,28,28,29,29,29],
+        "second_mark": [51,50,46.5,44,40.75,37.25,33.75,28.25,28,28,28,28,28],
+        "third_mark": [43.4,42.4,40.5,38.2,36.6,34.2,31.2,30.3,28.9,28.8,28.8,28.8,28.8]
+    }
+    result = find_point(g, mark_brakepoints)
+    return -8e-7*result*result-1.477e-2*result+46.585
 
 def c(g): # Истиная теплоёмкость металла,Дж/(кг*К)
     g = g-273
-    if g>700:
-        return 1618-0.8025*g
+    
+    mark_brakepoints = {
+        "first_mark": [ 464,489,516,549,587.5,634.5,703,813,797,652,660.5,667.5,676.5],
+        "second_mark": [479,496,535,550,599,683,522,723,674,649,657,678,687],
+        "third_mark": [502,528,569,611,691,733,676,502,624,632,641,669,687]
+    }
+    result = find_point(g, mark_brakepoints)
+    if result>700:
+        return 1618-0.8025*result
     else:
-        return (0.6938-0.002325*g+4.571e-6*g*g)*1000
+        return (0.6938-0.002325*result+4.571e-6*result*result)*1000
 
 def ro(g): # Плотность металла,кг/м^3)
     g = g-273
-    return (7.824-3.355e-4*g)*1000
+    
+    
+    mark_brakepoints = {
+        "first_mark": [7844,7816,7783,7748,7712,7674,7635,7602,7598,7569,7521,7492,7463],
+        "second_mark": [7821,7789,7755,7720,7683,7643,7604,7608,7578,7530,7491,7464,7432],
+        "third_mark": [7826,7799,7769,7739,7698,7662,7625,7587,7595,7540,7508,7475,7443]
+    }
+    result = find_point(g, mark_brakepoints)
+    return (7.824-3.355e-4*result)*1000
 
 def Temp1(T, n, tw, dx, dtime, Epr, Tw):
     j = T[n-1][0]
@@ -215,65 +248,6 @@ def FuilBurnCalculation(gases, Npir, tv, tg, l, params):
 
     # Теплота сгорания
     Qt = {}
-    aa = [[0.0 for _ in range(2)] for _ in range(11)]  # 12 строк по 3 столбца
-    bb = [[0.0 for _ in range(2)] for _ in range(11)]  # 12 строк по 3 столбца
-    aa[0][0]=98.2         
-    aa[0][1]=0.6
-    aa[1][0]=0.8          
-    aa[1][1]=0          
-    aa[2][0]=0            
-    aa[2][1]=0        
-    aa[3][0]=1.0          
-    aa[3][1]=0         
-    aa[4][0]=0            
-    aa[4][1]=0          
-    aa[5][0]=0            
-    aa[5][1]=26         
-    aa[6][0]=0            
-    aa[6][1]=4.2        
-    aa[7][0]=0            
-    aa[7][1]=12.2       
-    aa[8][0]=0.0          
-    aa[8][1]=57.0     
-    aa[9][0]=0           
-    aa[9][1]=0        
-    d1=10                
-    d2=60             
-    aa[10][0]=100*d1/(805+d1)                 
-    aa[10][1]=100*d2/(805+d2)                  
-
-    for m in range(0, 10):  # от 1 до 11 включительно
-        aa[m][0]=aa[m][0]*(1-0.01*aa[10][0])
-        aa[m][1]=aa[m][1]*(1-0.01*aa[10][1])
-    x=10.1
-    y=100-x
-    for m in range(0, 11):  # от 1 до 11 включительно
-        bb[m] = (aa[m][0] * x + aa[m][1] * y) / 100
-    vo2=0.01*(2*bb[1]+3.5*bb[2]+5*bb[3]+6.5*bb[4]+
-             8*bb[5]+0.5*bb[6]+0.5*bb[7]-bb[10])
-    l0=vo2/0.21
-    ld=l0*1.05
-    # Удельный выход дыма
-    vco2 = 0.01 * (bb[6] + bb[0] + 2 * bb[1] + 2 * bb[2] + 3 * bb[3] + 4 * bb[4] +
-                   5 * bb[5] + 2 * bb[8])
-    vh2o = 0.01 * (bb[7] + 2 * bb[0] + 2 * bb[1] + 4 * bb[3] + 5 * bb[4] + 6 * bb[5] + bb[10])
-    vn2 = 0.01 * bb[9] + 0.79 * ld
-    vo2i = 0.01 * bb[10] + 0.0105 * l0
-    v = vco2 + vh2o + vn2 + vo2i
-
-    v *= 0.01
-
-    # Состав дыма
-    co2 = vco2 / v
-    n2 = vn2 / v
-    h2o = vh2o / v
-    o2 = vo2i / v
-    print("Газы")
-    print(co2)
-    print(n2)
-    print(h2o)
-    print(o2)
-    print("-----")
 
     # Проход газам из базы данных
     for gas in gases:
@@ -324,8 +298,6 @@ def FuilBurnCalculation(gases, Npir, tv, tg, l, params):
         mixed_price += price * gas.mixed_percentage
 
         prices[gas.name] = price * gas.mixed_percentage / 100
-
-    print(mixed_gas)
 
     # Удельная теплоёмкость
     Cv = (0.21 * (6.5929e-8 * tv**2 + 1.137e-4 * tv + 1.2699) +
@@ -542,7 +514,12 @@ def MetallBurnCalculation(
         s, bb, a, Lp, toc, tnas, tmn, twDif, twMetn, twMetNpk, twSv1n, twSv2, twNp2k, twTom, twNp2n,
         dst1, dst2, r1, r2, r3, dtdop, n, time_H, tMet_per, tSv1_per, tSv2_per, tTom_per, Fmet, Fsv1, Fsv2, Ftom,
         LsioMet, LsioSv1, LsioSv2, LsioTom, LsioPercent,
-        Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv):
+        Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv,
+        
+        mark_):
+    
+    global mark
+    mark = mark_
     
     # dtdop = 318 # Допустимый перепад
     # n = 10      # Количество узлов # 2025-сделать нечетным (11)

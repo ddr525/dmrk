@@ -62,9 +62,9 @@ class AllParameters(customtkinter.CTkFrame):
         mode_label = customtkinter.CTkLabel(mode_frame, text="Время нагрева, мин", height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
         mode_label.grid(row=0, column=0, pady=2, padx=5, sticky="w")
 
-        time_H = customtkinter.CTkEntry(mode_block, width=50, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
-        time_H.grid(row=1, column=1)
-        self.params["Время нагрева, мин"] = time_H
+        self.time_H = customtkinter.CTkEntry(mode_block, width=50, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
+        self.time_H.grid(row=1, column=1)
+        self.params["Время нагрева, мин"] = self.time_H
         #-------------------
 
         #------Температура по зонам печи---------
@@ -100,10 +100,10 @@ class AllParameters(customtkinter.CTkFrame):
         temps_table_td_label = customtkinter.CTkLabel(temps_table_td, text="1", height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
         temps_table_td_label.grid(row=0, column=0, pady=(2,0), padx=0)
         
-        twSv1n = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
-        twSv1n.grid(row=2, column=1)
-        twSv1n._entry.configure(insertbackground="white")
-        self.params["1 зона"] = twSv1n
+        self.twSv1n = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
+        self.twSv1n.grid(row=2, column=1)
+        self.twSv1n._entry.configure(insertbackground="white")
+        self.params["1 зона"] = self.twSv1n
 
 
         temps_table_td = customtkinter.CTkFrame(temps_block, width=50, height=28, border_color="black", border_width=2, fg_color=fg_color_block, corner_radius=0)
@@ -113,10 +113,10 @@ class AllParameters(customtkinter.CTkFrame):
         temps_table_td_label = customtkinter.CTkLabel(temps_table_td, text="2", height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
         temps_table_td_label.grid(row=0, column=0, pady=(2,0), padx=0)
         
-        twMetNpk = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
-        twMetNpk.grid(row=3, column=1)
-        twMetNpk._entry.configure(insertbackground="white")
-        self.params["2 зона"] = twMetNpk
+        self.twMetNpk = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
+        self.twMetNpk.grid(row=3, column=1)
+        self.twMetNpk._entry.configure(insertbackground="white")
+        self.params["2 зона"] = self.twMetNpk
  
         
         temps_table_td = customtkinter.CTkFrame(temps_block, width=50, height=28, border_color="black", border_width=2, fg_color=fg_color_block, corner_radius=0)
@@ -126,10 +126,10 @@ class AllParameters(customtkinter.CTkFrame):
         temps_table_td_label = customtkinter.CTkLabel(temps_table_td, text="3", height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
         temps_table_td_label.grid(row=0, column=0, pady=(2,0), padx=0)
         
-        twSv2 = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
-        twSv2.grid(row=4, column=1)
-        twSv2._entry.configure(insertbackground="white")
-        self.params["3 зона"] = twSv2
+        self.twSv2 = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
+        self.twSv2.grid(row=4, column=1)
+        self.twSv2._entry.configure(insertbackground="white")
+        self.params["3 зона"] = self.twSv2
 
 
         temps_table_td = customtkinter.CTkFrame(temps_block, width=50, height=28, border_color="black", border_width=2, fg_color=fg_color_block, corner_radius=0)
@@ -139,10 +139,10 @@ class AllParameters(customtkinter.CTkFrame):
         temps_table_td_label = customtkinter.CTkLabel(temps_table_td, text="4", height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
         temps_table_td_label.grid(row=0, column=0, pady=(2,0), padx=0)
         
-        twNp2n = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
-        twNp2n.grid(row=5, column=1) 
-        twNp2n._entry.configure(insertbackground="white")
-        self.params["4 зона"] = twNp2n
+        self.twNp2n = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
+        self.twNp2n.grid(row=5, column=1) 
+        self.twNp2n._entry.configure(insertbackground="white")
+        self.params["4 зона"] = self.twNp2n
 
 
         temps_table_td = customtkinter.CTkFrame(temps_block, width=50, height=28, border_color="black", border_width=2, fg_color=fg_color_block, corner_radius=0)
@@ -152,20 +152,20 @@ class AllParameters(customtkinter.CTkFrame):
         temps_table_td_label = customtkinter.CTkLabel(temps_table_td, text="5", height=24, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff")
         temps_table_td_label.grid(row=0, column=0, pady=(2,0), padx=0)
         
-        twTom = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
-        twTom.grid(row=6, column=1)
-        twTom._entry.configure(insertbackground="white", insertwidth=2)
-        self.params["5 зона"] = twTom
+        self.twTom = customtkinter.CTkEntry(temps_block, width=150, height=28, font=self.font, corner_radius=0, fg_color="transparent", text_color="#ffffff", border_color="black", border_width=2)
+        self.twTom.grid(row=6, column=1)
+        self.twTom._entry.configure(insertbackground="white", insertwidth=2)
+        self.params["5 зона"] = self.twTom
 
         #------------------Кнопка "Просчитать"-------------------------
         add_button = customtkinter.CTkButton(self, text="Просчитать", fg_color='#ac0d0d',font=self.font, hover_color="#d81111", width=200
                                              , command=lambda: self._calculate(
-                                                 float(time_H.get()), 
-                                                 float(twSv1n.get()), 
-                                                 float(twMetNpk.get()), 
-                                                 float(twSv2.get()), 
-                                                 float(twNp2n.get()), 
-                                                 float(twTom.get()))
+                                                 float(self.time_H.get()), 
+                                                 float(self.twSv1n.get()), 
+                                                 float(self.twMetNpk.get()), 
+                                                 float(self.twSv2.get()), 
+                                                 float(self.twNp2n.get()), 
+                                                 float(self.twTom.get()))
                                              )
         add_button.grid(row=4, column=0, padx=5, pady=(10, 10))
         #-------------------------------------------------------
@@ -212,8 +212,16 @@ class AllParameters(customtkinter.CTkFrame):
 
         data = FuilBurnCalculation(gases, n, tv, tg, l, params) 
         result, gas_data = self.show_result(data) 
-        # Запись результатов
-        exp = self.database.save_gas_results("Расчет горения топлива", result) ## uncomment in prod
+        
+        history_params = [
+            ("Время нагрева (time_H)", time_H), 
+            ("Температура нижнего подогрева методической зоны (twMetNpk)", twMetNpk), 
+            ("Температура первой сварочной зоны (twSv1n)", twSv1n), 
+            ("Температура второй сварочной зоны (twSv2)", twSv2), 
+            ("Температура томильной зоны (twTom)", twTom), 
+            ("Температура нижнего подогрева томильной зоны (twNp2n)", twNp2n)]
+
+        exp = self.database.save_gas_results("Расчет горения топлива", result, params, history_params) ## uncomment in prod
 
         Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv = self.database.save_gas_to_metal_exp_data(exp, gas_data) ## uncomment in prod
         
@@ -276,7 +284,9 @@ class AllParameters(customtkinter.CTkFrame):
                     s, bb, a, Lp, toc, tnas, tmn, twDif, twMetn, twMetNpk, twSv1n, twSv2, twNp2k, twTom, twNp2n,
                     dst1, dst2, r1, r2, r3, dtdop, n, time_H, tMet_per, tSv1_per, tSv2_per, tTom_per, Fmet, Fsv1, Fsv2, Ftom,
                     LsioMet, LsioSv1, LsioSv2, LsioTom, LsioPercent,
-                    Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv) 
+                    Ts, ng, v, h2o, co2, n2, o2, Q, Qft, Qfv,
+                    
+                    str(self.database.get_parameters("Марка стали (группа нагрева)").value_str))
         
 
 
@@ -340,4 +350,157 @@ class AllParameters(customtkinter.CTkFrame):
         self.exp_num = str(id)
         self.exp_description_label.configure(text="Номер опыта — " + self.exp_num)
 
-        self.master.open_exp(id)
+        exp = self.database.get_experiment_by_id(id)
+        heating_data, gas_data = self.show_exp(exp)
+        print(heating_data)
+        self.time_H.delete(0, "end")  # очистить
+        time_H = heating_data["data"]["Время нагрева (time_H)"]
+        self.time_H.insert(0, int(time_H) if float(time_H).is_integer() else round(float(time_H), 2))
+
+        self.twMetNpk.delete(0, "end")  # очистить
+        twMetNpk = heating_data["data"]["Температура нижнего подогрева методической зоны (twMetNpk)"]
+        self.twMetNpk.insert(0, int(twMetNpk) if float(twMetNpk).is_integer() else round(float(twMetNpk), 2))
+        
+        self.twSv1n.delete(0, "end")  # очистить
+        twSv1n = heating_data["data"]["Температура первой сварочной зоны (twSv1n)"]
+        self.twSv1n.insert(0, int(twSv1n) if float(twSv1n).is_integer() else round(float(twSv1n), 2))
+
+        self.twSv2.delete(0, "end")  # очистить
+        twSv2 = heating_data["data"]["Температура второй сварочной зоны (twSv2)"]
+        self.twSv2.insert(0, int(twSv2) if float(twSv2).is_integer() else round(float(twSv2), 2))
+
+        self.twTom.delete(0, "end")  # очистить
+        twTom = heating_data["data"]["Температура томильной зоны (twTom)"]
+        self.twTom.insert(0, int(twTom) if float(twTom).is_integer() else round(float(twTom), 2))
+        
+        self.twNp2n.delete(0, "end")  # очистить
+        twNp2n = heating_data["data"]["Температура нижнего подогрева томильной зоны (twNp2n)"]
+        self.twNp2n.insert(0, int(twNp2n) if float(twNp2n).is_integer() else round(float(twNp2n), 2))
+
+        for row, value in enumerate(self.list):
+            entry = self.params[value.name]
+            entry.delete(0, "end")  # очистить
+            history_data = float(dict(gas_data).get(f"{value.name}, %"))
+            entry.insert(0, int(history_data) if history_data.is_integer() else round(history_data, 2))
+
+        self.master.open_exp(heating_data, gas_data)
+
+
+    def show_exp(self, exp):
+        res = exp.results
+
+        heating_data = self.parse_heating_data(exp)
+
+        data = []
+
+        cards = {}
+
+        for el in res:
+            if("CO2" in el.parameter or "N2" in el.parameter or "H2O" in el.parameter or "O2" in el.parameter):
+                cards[el.parameter] = el.value
+            else:
+                if("%" in el.parameter or "тг" in el.parameter):
+                    data.append((el.parameter, toFixed(el.value, 1)))
+                else:
+                    data.append((el.parameter, toFixed(el.value, 3)))
+            
+        data.append(("cards", cards))
+
+        # self.update(data)
+        return heating_data, data
+
+    def parse_heating_data(self, exp):
+        heating_data = {
+            "Расчет нагрева металла": {},
+            "Тепловой баланс" : {},
+            "График": {},
+            "data": {},
+            "t_data": {}
+        }
+ 
+        # metal heating
+        for zone in exp.metal_results[0].zones:
+            #print(zone.name)
+            heating_data["Расчет нагрева металла"][zone.name] = {}
+
+            for param in zone.parameters:
+                heating_data["Расчет нагрева металла"][zone.name][param.name + "," + param.units] = param.value
+
+        for param in exp.metal_results[0].parameters:
+            #print(param.name)
+            heating_data["Расчет нагрева металла"][param.name + "," + param.units] = param.value
+
+        for zone in exp.balance_results[0].zones:
+            #print(zone.name)
+            heating_data["Тепловой баланс"][zone.name] = {}
+
+            for heat_flow in zone.heat_flows:
+                #print(heat_flow.type)
+                heating_data["Тепловой баланс"][zone.name][heat_flow.type] = {}
+
+                for detail in heat_flow.details:
+                    #print(detail.name)
+                    heating_data["Тепловой баланс"][zone.name][heat_flow.type][detail.name + "," + detail.units] = detail.value
+            
+            for param in zone.params:
+                #print(param.name)
+                heating_data["Тепловой баланс"][zone.name][param.name + "," + param.units] = param.value
+
+        for param in exp.heat_graphs[0].params:
+            #print(param.name)
+            heating_data["График"][param.name] = param.value
+
+        for dot in exp.heat_graphs[0].dots:
+            #print(dot.name)
+            heating_data["График"][dot.name] = [data.value for data in dot.data]
+        # e = exp.history_parameters
+
+        tmn = 0.0
+        twMetn = 0.0
+        twDif = 0.0
+        name_params = [
+            "Время нагрева (time_H)", 
+            "Температура нижнего подогрева методической зоны (twMetNpk)", 
+            "Температура первой сварочной зоны (twSv1n)", 
+            "Температура второй сварочной зоны (twSv2)", 
+            "Температура томильной зоны (twTom)", 
+            "Температура нижнего подогрева томильной зоны (twNp2n)"]
+        param_names = [name for name in name_params]
+        print(param_names)
+        for param in exp.history_parameters:
+            if param.parameter_name in name_params:
+                heating_data["data"][param.parameter_name] = param.value
+
+            if(param.parameter_name == "Время в методической зоне" or param.parameter_name == "Время в первой сварочной зоне" or param.parameter_name == "Время во второй сварочной зоне" or param.parameter_name == "Время в томильной зоне"):
+                heating_data["data"][param.parameter_name] = param.value
+
+            if(param.parameter_name == "Начальная температура металла (tmn)"):
+                tmn = param.value
+            elif(param.parameter_name == "Температура методической зоны (twMetn)"):
+                twMetn = param.value
+            elif(param.parameter_name == "Разница температур при посаде (twDif)"):
+                twDif = param.value
+
+
+        s = self.database.get_parameters("Толщина сляба (s)").value
+        bb = self.database.get_parameters("Длина сляба (bb)").value
+        a = self.database.get_parameters("Ширина сляба (a)").value
+        Lp = self.database.get_parameters("Длина печи (Lp)").value
+
+        heating_data["t_data"]["Температура сляба при посаде"] = tmn
+        heating_data["t_data"]["Температура верха печи при посаде"] = twMetn
+        heating_data["t_data"]["Температура низа печи при посаде"] = twMetn - twDif
+        heating_data["Расчет нагрева металла"]["Толщина сляба"] = s
+        heating_data["Расчет нагрева металла"]["Длина сляба"] = bb
+        heating_data["Расчет нагрева металла"]["Ширина сляба"] = a
+        heating_data["Расчет нагрева металла"]["Длина печи"] = Lp
+        heating_data["Расчет нагрева металла"]["Марка стали"] = str(self.database.get_parameters("Марка стали (группа нагрева)").value_str) 
+
+        # heating_data["data"]["Температура нижнего подогрева методической зоны (twMetNpk)"] = self.database.get_parameters("Температура нижнего подогрева методической зоны (twMetNpk)").value
+        # heating_data["data"]["Температура первой сварочной зоны (twSv1n)"] = self.database.get_parameters("Температура первой сварочной зоны (twSv1n)").value
+        # heating_data["data"]["Температура второй сварочной зоны (twSv2)"] = self.database.get_parameters("Температура второй сварочной зоны (twSv2)").value
+        # heating_data["data"]["Температура томильной зоны (twTom)"] = self.database.get_parameters("Температура томильной зоны (twTom)").value
+        # heating_data["data"]["Температура нижнего подогрева томильной зоны (twNp2n)"] = self.database.get_parameters("Температура нижнего подогрева томильной зоны (twNp2n)").value
+        
+        return heating_data 
+    
